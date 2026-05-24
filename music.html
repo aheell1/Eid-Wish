@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Little Song</title>
+  <title>Nephophile</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Amiri:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
@@ -11,7 +11,8 @@
     :root {
       --bg: #0B1026;
       --gold: #F6C453;
-      --white: #ffffff;
+      --cloud: rgba(82, 90, 120, 0.38);
+      --cloud-light: rgba(115, 123, 150, 0.42);
     }
 
     * {
@@ -24,7 +25,8 @@
       min-height: 100vh;
       overflow: hidden;
       background:
-        linear-gradient(to bottom, #070b1d, #0B1026 55%, #111936);
+        radial-gradient(circle at 50% 35%, rgba(246, 196, 83, 0.08), transparent 30%),
+        linear-gradient(to bottom, #050817, #0B1026 55%, #111936);
       font-family: "Poppins", sans-serif;
       color: white;
       position: relative;
@@ -32,63 +34,102 @@
 
     .cloud {
       position: absolute;
-      width: 210px;
-      height: 70px;
-      background: rgba(255, 255, 255, 0.16);
-      border-radius: 50px;
-      filter: blur(1px);
+      width: 230px;
+      height: 75px;
+      background: var(--cloud);
+      border-radius: 60px;
+      filter: blur(0.4px);
+      box-shadow:
+        inset -22px -20px 35px rgba(0, 0, 0, 0.28),
+        inset 12px 10px 25px rgba(255, 255, 255, 0.06),
+        0 0 35px rgba(255, 255, 255, 0.04);
       animation: moveClouds linear infinite;
+      z-index: 1;
     }
 
     .cloud::before,
     .cloud::after {
       content: "";
       position: absolute;
-      background: rgba(255, 255, 255, 0.18);
+      background: var(--cloud-light);
       border-radius: 50%;
+      box-shadow: inset -12px -12px 22px rgba(0, 0, 0, 0.2);
     }
 
     .cloud::before {
-      width: 85px;
-      height: 85px;
-      top: -35px;
-      left: 35px;
+      width: 90px;
+      height: 90px;
+      top: -38px;
+      left: 38px;
     }
 
     .cloud::after {
-      width: 105px;
-      height: 105px;
-      top: -50px;
+      width: 115px;
+      height: 115px;
+      top: -58px;
       right: 25px;
     }
 
     .c1 {
-      top: 100px;
-      left: -250px;
-      animation-duration: 42s;
+      top: 95px;
+      left: -280px;
+      animation-duration: 45s;
     }
 
     .c2 {
-      top: 210px;
-      left: -300px;
-      transform: scale(0.75);
-      animation-duration: 55s;
-      animation-delay: 8s;
+      top: 190px;
+      left: -330px;
+      transform: scale(0.78);
+      animation-duration: 58s;
+      animation-delay: 7s;
     }
 
     .c3 {
-      top: 330px;
+      top: 315px;
+      left: -300px;
+      transform: scale(0.58);
+      animation-duration: 50s;
+      animation-delay: 15s;
+    }
+
+    .c4 {
+      top: 145px;
+      left: -270px;
+      transform: scale(0.62);
+      animation-duration: 62s;
+      animation-delay: 22s;
+    }
+
+    .c5 {
+      top: 420px;
+      left: -350px;
+      transform: scale(0.86);
+      animation-duration: 66s;
+      animation-delay: 12s;
+    }
+
+    .c6 {
+      top: 520px;
       left: -280px;
-      transform: scale(0.55);
-      animation-duration: 48s;
-      animation-delay: 16s;
+      transform: scale(0.52);
+      animation-duration: 52s;
+      animation-delay: 28s;
+    }
+
+    .c7 {
+      top: 35px;
+      left: -320px;
+      transform: scale(0.5);
+      animation-duration: 70s;
+      animation-delay: 18s;
+      opacity: 0.7;
     }
 
     .fairy-lights {
       position: fixed;
       top: 0;
       width: 100%;
-      height: 90px;
+      height: 88px;
       z-index: 3;
     }
 
@@ -110,7 +151,7 @@
       left: 3px;
       width: 1px;
       height: 22px;
-      background: rgba(246, 196, 83, 0.45);
+      background: rgba(246, 196, 83, 0.4);
     }
 
     .card {
@@ -128,22 +169,22 @@
 
     h1 {
       font-family: "Great Vibes", cursive;
-      font-size: clamp(3.2rem, 12vw, 6rem);
+      font-size: clamp(3.4rem, 12vw, 6.3rem);
       color: var(--gold);
       font-weight: 400;
-      text-shadow: 0 0 22px rgba(246, 196, 83, 0.8);
+      text-shadow: 0 0 24px rgba(246, 196, 83, 0.85);
       margin-bottom: 18px;
     }
 
     .glass {
-      width: min(90%, 360px);
+      width: min(90%, 370px);
       padding: 28px 22px;
       border-radius: 28px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px solid rgba(246, 196, 83, 0.35);
+      background: rgba(255, 255, 255, 0.075);
+      border: 1.5px solid rgba(246, 196, 83, 0.34);
       box-shadow:
-        0 0 25px rgba(246, 196, 83, 0.16),
-        0 20px 45px rgba(0, 0, 0, 0.35);
+        0 0 28px rgba(246, 196, 83, 0.16),
+        0 22px 48px rgba(0, 0, 0, 0.42);
       backdrop-filter: blur(10px);
     }
 
@@ -165,6 +206,13 @@
       font-size: 1rem;
       cursor: pointer;
       box-shadow: 0 0 14px rgba(246, 196, 83, 0.35);
+      transition: 0.3s ease;
+    }
+
+    .play-btn:hover {
+      background: var(--gold);
+      color: var(--bg);
+      transform: scale(1.05);
     }
 
     .equalizer {
@@ -207,7 +255,7 @@
       z-index: 2;
     }
 
-    .back-btn {
+    .next-btn {
       position: fixed;
       bottom: 35px;
       left: 50%;
@@ -224,8 +272,12 @@
     }
 
     @keyframes moveClouds {
-      from { transform: translateX(0); }
-      to { transform: translateX(calc(100vw + 500px)); }
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(calc(100vw + 620px));
+      }
     }
 
     @keyframes twinkle {
@@ -260,18 +312,35 @@
         transform: translateY(-45px);
       }
 
+      h1 {
+        font-size: clamp(3.2rem, 15vw, 4.5rem);
+      }
+
       .glass {
         width: min(90%, 330px);
         padding: 24px 18px;
       }
 
-      .back-btn {
+      .next-btn {
         bottom: 70px;
         font-size: 0.85rem;
       }
 
       .cloud {
-        transform: scale(0.7);
+        width: 190px;
+        height: 62px;
+      }
+
+      .cloud::before {
+        width: 72px;
+        height: 72px;
+        top: -30px;
+      }
+
+      .cloud::after {
+        width: 90px;
+        height: 90px;
+        top: -45px;
       }
     }
   </style>
@@ -282,11 +351,15 @@
   <div class="cloud c1"></div>
   <div class="cloud c2"></div>
   <div class="cloud c3"></div>
+  <div class="cloud c4"></div>
+  <div class="cloud c5"></div>
+  <div class="cloud c6"></div>
+  <div class="cloud c7"></div>
 
   <div class="fairy-lights" id="lights"></div>
 
   <main class="card">
-    <h1>A Little Song</h1>
+    <h1>Nephophile</h1>
 
     <div class="glass">
       <p class="typing" id="typing"></p>
@@ -305,14 +378,14 @@
     </div>
   </main>
 
-  <a href="#" class="back-btn">Next ➜</a>
+  <a href="#" class="next-btn">Next ➜</a>
 
   <audio id="song">
     <source src="song1.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const text = "This little song is only for you... may it make your Eid smile softer.";
+    const text = "For the one who loves clouds, calm skies, and little peaceful moments.";
     const typing = document.getElementById("typing");
     let index = 0;
 
@@ -357,7 +430,7 @@
       lights.appendChild(light);
     }
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 22; i++) {
       const firefly = document.createElement("span");
       firefly.className = "firefly";
       firefly.style.left = Math.random() * 100 + "vw";
