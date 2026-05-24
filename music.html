@@ -32,253 +32,113 @@
       position: relative;
     }
 
-    .cloud {
-      position: absolute;
-      width: 230px;
-      height: 75px;
-      background: var(--cloud);
-      border-radius: 60px;
-      filter: blur(0.4px);
-      box-shadow:
-        inset -22px -20px 35px rgba(0, 0, 0, 0.28),
-        inset 12px 10px 25px rgba(255, 255, 255, 0.06),
-        0 0 35px rgba(255, 255, 255, 0.04);
-      animation: moveClouds linear infinite;
-      z-index: 1;
-    }
+.cloud {
+  position: absolute;
+  width: 260px;
+  height: 82px;
+  background:
+    radial-gradient(circle at 25% 35%, rgba(150, 158, 185, 0.45), transparent 34%),
+    radial-gradient(circle at 55% 15%, rgba(125, 135, 165, 0.48), transparent 40%),
+    radial-gradient(circle at 80% 45%, rgba(70, 78, 108, 0.48), transparent 38%),
+    rgba(55, 63, 92, 0.48);
+  border-radius: 70px;
+  filter: blur(0.8px);
+  box-shadow:
+    inset -28px -24px 40px rgba(0, 0, 0, 0.38),
+    inset 14px 12px 26px rgba(255, 255, 255, 0.06),
+    0 0 38px rgba(255, 255, 255, 0.04);
+  animation: moveClouds linear infinite;
+  z-index: 1;
+}
 
-    .cloud::before,
-    .cloud::after {
-      content: "";
-      position: absolute;
-      background: var(--cloud-light);
-      border-radius: 50%;
-      box-shadow: inset -12px -12px 22px rgba(0, 0, 0, 0.2);
-    }
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(145, 153, 180, 0.5), rgba(62, 70, 100, 0.45));
+  box-shadow: inset -16px -16px 25px rgba(0, 0, 0, 0.28);
+}
 
-    .cloud::before {
-      width: 90px;
-      height: 90px;
-      top: -38px;
-      left: 38px;
-    }
+.cloud::before {
+  width: 95px;
+  height: 95px;
+  top: -42px;
+  left: 42px;
+}
 
-    .cloud::after {
-      width: 115px;
-      height: 115px;
-      top: -58px;
-      right: 25px;
-    }
+.cloud::after {
+  width: 125px;
+  height: 125px;
+  top: -62px;
+  right: 28px;
+}
 
-    .c1 {
-      top: 95px;
-      left: -280px;
-      animation-duration: 45s;
-    }
+.c1 {
+  top: 85px;
+  left: -80px;
+  animation-duration: 24s;
+}
 
-    .c2 {
-      top: 190px;
-      left: -330px;
-      transform: scale(0.78);
-      animation-duration: 58s;
-      animation-delay: 7s;
-    }
+.c2 {
+  top: 175px;
+  left: -160px;
+  transform: scale(0.78);
+  animation-duration: 30s;
+  animation-delay: 2s;
+}
 
-    .c3 {
-      top: 315px;
-      left: -300px;
-      transform: scale(0.58);
-      animation-duration: 50s;
-      animation-delay: 15s;
-    }
+.c3 {
+  top: 305px;
+  left: -120px;
+  transform: scale(0.58);
+  animation-duration: 26s;
+  animation-delay: 4s;
+}
 
-    .c4 {
-      top: 145px;
-      left: -270px;
-      transform: scale(0.62);
-      animation-duration: 62s;
-      animation-delay: 22s;
-    }
+.c4 {
+  top: 135px;
+  left: -220px;
+  transform: scale(0.62);
+  animation-duration: 34s;
+  animation-delay: 5s;
+}
 
-    .c5 {
-      top: 420px;
-      left: -350px;
-      transform: scale(0.86);
-      animation-duration: 66s;
-      animation-delay: 12s;
-    }
+.c5 {
+  top: 410px;
+  left: -180px;
+  transform: scale(0.86);
+  animation-duration: 36s;
+  animation-delay: 3s;
+}
 
-    .c6 {
-      top: 520px;
-      left: -280px;
-      transform: scale(0.52);
-      animation-duration: 52s;
-      animation-delay: 28s;
-    }
+.c6 {
+  top: 505px;
+  left: -130px;
+  transform: scale(0.52);
+  animation-duration: 28s;
+  animation-delay: 6s;
+}
 
-    .c7 {
-      top: 35px;
-      left: -320px;
-      transform: scale(0.5);
-      animation-duration: 70s;
-      animation-delay: 18s;
-      opacity: 0.7;
-    }
+.c7 {
+  top: 35px;
+  left: -200px;
+  transform: scale(0.5);
+  animation-duration: 38s;
+  animation-delay: 1s;
+  opacity: 0.75;
+}
 
-    .fairy-lights {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 88px;
-      z-index: 3;
-    }
+@keyframes moveClouds {
+  from {
+    translate: 0 0;
+  }
 
-    .light {
-      position: absolute;
-      top: 22px;
-      width: 7px;
-      height: 7px;
-      background: var(--gold);
-      border-radius: 50%;
-      box-shadow: 0 0 15px var(--gold);
-      animation: twinkle 2s ease-in-out infinite;
-    }
-
-    .light::before {
-      content: "";
-      position: absolute;
-      top: -22px;
-      left: 3px;
-      width: 1px;
-      height: 22px;
-      background: rgba(246, 196, 83, 0.4);
-    }
-
-    .card {
-      position: relative;
-      z-index: 5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      transform: translateY(-25px);
-    }
-
-    h1 {
-      font-family: "Great Vibes", cursive;
-      font-size: clamp(3.4rem, 12vw, 6.3rem);
-      color: var(--gold);
-      font-weight: 400;
-      text-shadow: 0 0 24px rgba(246, 196, 83, 0.85);
-      margin-bottom: 18px;
-    }
-
-    .glass {
-      width: min(90%, 370px);
-      padding: 28px 22px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.075);
-      border: 1.5px solid rgba(246, 196, 83, 0.34);
-      box-shadow:
-        0 0 28px rgba(246, 196, 83, 0.16),
-        0 22px 48px rgba(0, 0, 0, 0.42);
-      backdrop-filter: blur(10px);
-    }
-
-    .typing {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.92);
-      min-height: 58px;
-    }
-
-    .play-btn {
-      margin-top: 22px;
-      padding: 10px 24px;
-      border: 1.5px solid var(--gold);
-      border-radius: 22px;
-      background: rgba(246, 196, 83, 0.14);
-      color: var(--gold);
-      font-family: "Amiri", serif;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 0 14px rgba(246, 196, 83, 0.35);
-      transition: 0.3s ease;
-    }
-
-    .play-btn:hover {
-      background: var(--gold);
-      color: var(--bg);
-      transform: scale(1.05);
-    }
-
-    .equalizer {
-      height: 45px;
-      margin-top: 24px;
-      display: flex;
-      gap: 6px;
-      align-items: end;
-      justify-content: center;
-    }
-
-    .bar {
-      width: 6px;
-      height: 12px;
-      background: var(--gold);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(246, 196, 83, 0.6);
-      animation: beat 0.8s ease-in-out infinite;
-      animation-play-state: paused;
-    }
-
-    .bar:nth-child(2) { animation-delay: 0.1s; }
-    .bar:nth-child(3) { animation-delay: 0.2s; }
-    .bar:nth-child(4) { animation-delay: 0.3s; }
-    .bar:nth-child(5) { animation-delay: 0.4s; }
-
-    .playing .bar {
-      animation-play-state: running;
-    }
-
-    .firefly {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: var(--gold);
-      border-radius: 50%;
-      box-shadow: 0 0 14px var(--gold);
-      opacity: 0.7;
-      animation: fly 8s ease-in-out infinite;
-      z-index: 2;
-    }
-
-    .next-btn {
-      position: fixed;
-      bottom: 35px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 8px 18px;
-      border: 1.5px solid var(--gold);
-      border-radius: 18px;
-      background: rgba(246, 196, 83, 0.12);
-      color: var(--gold);
-      font-family: "Amiri", serif;
-      font-size: 0.95rem;
-      text-decoration: none;
-      z-index: 10;
-    }
-
-    @keyframes moveClouds {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(calc(100vw + 620px));
-      }
-    }
+  to {
+    translate: calc(100vw + 420px) 0;
+  }
+}
 
     @keyframes twinkle {
       0%, 100% {
