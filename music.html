@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Song</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Amiri:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0B1026;
+      --gold: #F6C453;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        linear-gradient(to bottom, #070b1d, #0B1026 55%, #111936);
+      font-family: "Poppins", sans-serif;
+      color: white;
+      position: relative;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 210px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 50px;
+      filter: blur(1px);
+      animation: moveClouds linear infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 85px;
+      height: 85px;
+      top: -35px;
+      left: 35px;
+    }
+
+    .cloud::after {
+      width: 105px;
+      height: 105px;
+      top: -50px;
+      right: 25px;
+    }
+
+    .c1 {
+      top: 100px;
+      left: -250px;
+      animation-duration: 42s;
+    }
+
+    .c2 {
+      top: 210px;
+      left: -300px;
+      transform: scale(0.75);
+      animation-duration: 55s;
+      animation-delay: 8s;
+    }
+
+    .c3 {
+      top: 330px;
+      left: -280px;
+      transform: scale(0.55);
+      animation-duration: 48s;
+      animation-delay: 16s;
+    }
+
+    .fairy-lights {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 90px;
+      z-index: 3;
+    }
+
+    .light {
+      position: absolute;
+      top: 22px;
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 15px var(--gold);
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    .light::before {
+      content: "";
+      position: absolute;
+      top: -22px;
+      left: 3px;
+      width: 1px;
+      height: 22px;
+      background: rgba(246, 196, 83, 0.45);
+    }
+
+    .card {
+      position: relative;
+      z-index: 5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      transform: translateY(-25px);
+    }
+
+    h1 {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(3.2rem, 12vw, 6rem);
+      color: var(--gold);
+      font-weight: 400;
+      text-shadow: 0 0 22px rgba(246, 196, 83, 0.8);
+      margin-bottom: 18px;
+    }
+
+    .glass {
+      width: min(90%, 360px);
+      padding: 28px 22px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(246, 196, 83, 0.35);
+      box-shadow:
+        0 0 25px rgba(246, 196, 83, 0.16),
+        0 20px 45px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .typing {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.92);
+      min-height: 58px;
+    }
+
+    .play-btn {
+      margin-top: 22px;
+      padding: 10px 24px;
+      border: 1.5px solid var(--gold);
+      border-radius: 22px;
+      background: rgba(246, 196, 83, 0.14);
+      color: var(--gold);
+      font-family: "Amiri", serif;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 14px rgba(246, 196, 83, 0.35);
+    }
+
+    .equalizer {
+      height: 45px;
+      margin-top: 24px;
+      display: flex;
+      gap: 6px;
+      align-items: end;
+      justify-content: center;
+    }
+
+    .bar {
+      width: 6px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(246, 196, 83, 0.6);
+      animation: beat 0.8s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+
+    .playing .bar {
+      animation-play-state: running;
+    }
+
+    .firefly {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 14px var(--gold);
+      opacity: 0.7;
+      animation: fly 8s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    .back-btn {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 18px;
+      border: 1.5px solid var(--gold);
+      border-radius: 18px;
+      background: rgba(246, 196, 83, 0.12);
+      color: var(--gold);
+      font-family: "Amiri", serif;
+      font-size: 0.95rem;
+      text-decoration: none;
+      z-index: 10;
+    }
+
+    @keyframes moveClouds {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 500px)); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+    }
+
+    @keyframes beat {
+      0%, 100% { height: 12px; }
+      50% { height: 42px; }
+    }
+
+    @keyframes fly {
+      0%, 100% {
+        transform: translate(0, 0);
+        opacity: 0.25;
+      }
+      50% {
+        transform: translate(35px, -45px);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        transform: translateY(-45px);
+      }
+
+      .glass {
+        width: min(90%, 330px);
+        padding: 24px 18px;
+      }
+
+      .back-btn {
+        bottom: 70px;
+        font-size: 0.85rem;
+      }
+
+      .cloud {
+        transform: scale(0.7);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+
+  <div class="fairy-lights" id="lights"></div>
+
+  <main class="card">
+    <h1>A Little Song</h1>
+
+    <div class="glass">
+      <p class="typing" id="typing"></p>
+
+      <button class="play-btn" onclick="toggleMusic()" id="playBtn">
+        Play Song 🎵
+      </button>
+
+      <div class="equalizer" id="equalizer">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </main>
+
+  <a href="#" class="back-btn">Next ➜</a>
+
+  <audio id="song">
+    <source src="song1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const text = "This little song is only for you... may it make your Eid smile softer.";
+    const typing = document.getElementById("typing");
+    let index = 0;
+
+    function typeText() {
+      if (index < text.length) {
+        typing.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeText, 55);
+      }
+    }
+
+    typeText();
+
+    const song = document.getElementById("song");
+    const btn = document.getElementById("playBtn");
+    const eq = document.getElementById("equalizer");
+
+    function toggleMusic() {
+      if (song.paused) {
+        song.play();
+        btn.innerHTML = "Pause Song ❚❚";
+        eq.classList.add("playing");
+      } else {
+        song.pause();
+        btn.innerHTML = "Play Song 🎵";
+        eq.classList.remove("playing");
+      }
+    }
+
+    song.addEventListener("ended", () => {
+      btn.innerHTML = "Play Again 🎵";
+      eq.classList.remove("playing");
+    });
+
+    const lights = document.getElementById("lights");
+
+    for (let i = 0; i < 13; i++) {
+      const light = document.createElement("span");
+      light.className = "light";
+      light.style.left = (i * 8 + 3) + "%";
+      light.style.animationDelay = Math.random() * 2 + "s";
+      lights.appendChild(light);
+    }
+
+    for (let i = 0; i < 18; i++) {
+      const firefly = document.createElement("span");
+      firefly.className = "firefly";
+      firefly.style.left = Math.random() * 100 + "vw";
+      firefly.style.top = Math.random() * 100 + "vh";
+      firefly.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(firefly);
+    }
+  </script>
+
+</body>
+</html>
