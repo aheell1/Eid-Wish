@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For You</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Amiri:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Amiri:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --background-color: #0B1026;
       --contrast-color: #F6C453;
-      --pink: #ff5f9e;
+      --rose-light: #ffb3c6;
+      --rose-main: #ff4f81;
+      --rose-dark: #9f1239;
+      --green: #22c55e;
     }
 
     * {
@@ -24,87 +27,154 @@
       min-height: 100vh;
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 35%, rgba(246, 196, 83, 0.08), transparent 35%),
+        radial-gradient(circle at center, rgba(246, 196, 83, 0.08), transparent 35%),
         var(--background-color);
-      font-family: "Poppins", sans-serif;
-      color: white;
-      position: relative;
-    }
-
-    .page {
-      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 25px 20px;
-      position: relative;
-      z-index: 5;
-      transform: translateY(-30px);
+      font-family: sans-serif;
+      perspective: 900px;
     }
 
     h1 {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: "Great Vibes", cursive;
-      font-size: clamp(3.2rem, 9vw, 6.2rem);
+      font-size: clamp(3.2rem, 12vw, 6rem);
       color: var(--contrast-color);
       font-weight: 400;
-      text-shadow: 0 0 18px rgba(246, 196, 83, 0.65);
-      margin-bottom: 24px;
+      text-shadow: 0 0 22px rgba(246, 196, 83, 0.7);
+      z-index: 10;
     }
 
-    .rose-card {
-      padding: 14px;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px solid rgba(246, 196, 83, 0.45);
+    .flower-scene {
+      position: relative;
+      width: 260px;
+      height: 420px;
+      transform-style: preserve-3d;
+      animation: sceneFloat 5s ease-in-out infinite;
+    }
+
+    .flower {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      width: 220px;
+      height: 220px;
+      transform: translateX(-50%) rotateX(58deg);
+      transform-style: preserve-3d;
+      animation: slowRotate 12s linear infinite;
+    }
+
+    .petal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 78px;
+      height: 135px;
+      margin-left: -39px;
+      margin-top: -118px;
+      border-radius: 80% 20% 70% 30%;
+      background:
+        radial-gradient(circle at 35% 20%, var(--rose-light), var(--rose-main) 48%, var(--rose-dark));
+      transform-origin: 50% 100%;
+      opacity: 0;
       box-shadow:
-        0 0 25px rgba(246, 196, 83, 0.2),
-        0 18px 40px rgba(0, 0, 0, 0.4);
-      animation: roseMove 4s ease-in-out infinite;
+        inset -8px -12px 18px rgba(70, 0, 25, 0.3),
+        inset 6px 8px 15px rgba(255, 255, 255, 0.22),
+        0 0 18px rgba(255, 79, 129, 0.25);
+      animation: bloom 1.4s ease forwards;
     }
 
-    .real-rose {
-      width: 250px;
-      max-width: 72vw;
-      border-radius: 22px;
-      display: block;
-      filter:
-        saturate(1.2)
-        contrast(1.05)
-        drop-shadow(0 0 18px rgba(255, 95, 158, 0.4));
+    .petal:nth-child(1)  { transform: rotateZ(0deg) translateY(42px) rotateX(0deg); animation-delay: .3s; }
+    .petal:nth-child(2)  { transform: rotateZ(30deg) translateY(42px) rotateX(0deg); animation-delay: .45s; }
+    .petal:nth-child(3)  { transform: rotateZ(60deg) translateY(42px) rotateX(0deg); animation-delay: .6s; }
+    .petal:nth-child(4)  { transform: rotateZ(90deg) translateY(42px) rotateX(0deg); animation-delay: .75s; }
+    .petal:nth-child(5)  { transform: rotateZ(120deg) translateY(42px) rotateX(0deg); animation-delay: .9s; }
+    .petal:nth-child(6)  { transform: rotateZ(150deg) translateY(42px) rotateX(0deg); animation-delay: 1.05s; }
+    .petal:nth-child(7)  { transform: rotateZ(180deg) translateY(42px) rotateX(0deg); animation-delay: 1.2s; }
+    .petal:nth-child(8)  { transform: rotateZ(210deg) translateY(42px) rotateX(0deg); animation-delay: 1.35s; }
+    .petal:nth-child(9)  { transform: rotateZ(240deg) translateY(42px) rotateX(0deg); animation-delay: 1.5s; }
+    .petal:nth-child(10) { transform: rotateZ(270deg) translateY(42px) rotateX(0deg); animation-delay: 1.65s; }
+    .petal:nth-child(11) { transform: rotateZ(300deg) translateY(42px) rotateX(0deg); animation-delay: 1.8s; }
+    .petal:nth-child(12) { transform: rotateZ(330deg) translateY(42px) rotateX(0deg); animation-delay: 1.95s; }
+
+    .inner {
+      width: 55px;
+      height: 95px;
+      margin-left: -27px;
+      margin-top: -82px;
+      animation-name: innerBloom;
+    }
+
+    .center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 52px;
+      height: 52px;
+      transform: translate(-50%, -50%) translateZ(35px);
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd1dc, var(--rose-main), #7f1d1d);
+      box-shadow:
+        inset -8px -8px 12px rgba(70, 0, 25, 0.45),
+        0 0 22px rgba(255, 79, 129, 0.6);
+      opacity: 0;
+      animation: centerPop 1s ease forwards;
+      animation-delay: 2.2s;
+    }
+
+    .stem {
+      position: absolute;
+      left: 50%;
+      bottom: 35px;
+      width: 10px;
+      height: 0;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, #14532d, #22c55e, #86efac);
+      border-radius: 20px;
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.35);
+      animation: growStem 1.6s ease forwards;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 80px;
+      height: 38px;
+      background: linear-gradient(135deg, #86efac, #16a34a);
+      border-radius: 100% 0 100% 0;
+      opacity: 0;
+      box-shadow: inset -6px -6px 10px rgba(0, 80, 30, 0.3);
+    }
+
+    .leaf.left {
+      left: 65px;
+      bottom: 125px;
+      transform-origin: right center;
+      animation: leafOpenLeft 1s ease forwards;
+      animation-delay: 1.2s;
+    }
+
+    .leaf.right {
+      right: 58px;
+      bottom: 170px;
+      transform-origin: left center;
+      animation: leafOpenRight 1s ease forwards;
+      animation-delay: 1.45s;
     }
 
     .message {
-      max-width: 520px;
-      font-size: clamp(1rem, 3vw, 1.25rem);
-      line-height: 1.8;
+      position: fixed;
+      bottom: 95px;
+      width: 90%;
+      max-width: 460px;
+      text-align: center;
       color: rgba(255, 255, 255, 0.9);
-      margin-top: 26px;
-    }
-
-    .falling-petal {
-      position: absolute;
-      top: -40px;
-      width: 13px;
-      height: 19px;
-      background:
-        radial-gradient(circle at 35% 25%, #ffc2d1, #ff5f9e 55%, #b5174b);
-      border-radius: 70% 30% 70% 30%;
-      opacity: 0.75;
-      animation: fallPetal linear infinite;
-      z-index: 1;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--contrast-color);
-      border-radius: 50%;
-      opacity: 0.5;
-      animation: sparkle 2s ease-in-out infinite;
-      z-index: 1;
+      font-size: clamp(0.95rem, 3vw, 1.2rem);
+      line-height: 1.8;
+      z-index: 10;
     }
 
     .next-btn {
@@ -121,79 +191,117 @@
       font-size: 0.95rem;
       text-decoration: none;
       box-shadow: 0 0 12px rgba(246, 196, 83, 0.3);
-      transition: 0.3s ease;
       z-index: 10;
     }
 
-    .next-btn:hover {
-      background: var(--contrast-color);
-      color: var(--background-color);
-      transform: translateX(-50%) scale(1.06);
-      box-shadow: 0 0 22px rgba(246, 196, 83, 0.7);
+    .falling-petal {
+      position: absolute;
+      top: -40px;
+      width: 14px;
+      height: 21px;
+      background: radial-gradient(circle at 35% 20%, #ffc2d1, #ff4f81, #9f1239);
+      border-radius: 70% 30% 70% 30%;
+      opacity: 0.75;
+      animation: fall linear infinite;
+      z-index: 1;
     }
 
-    @keyframes roseMove {
-      0%, 100% {
-        transform: translateY(0) rotate(-1deg) scale(1);
-      }
-
-      50% {
-        transform: translateY(-12px) rotate(1deg) scale(1.03);
-      }
-    }
-
-    @keyframes fallPetal {
-      0% {
-        transform: translateY(-50px) translateX(0) rotate(0deg);
+    @keyframes bloom {
+      from {
         opacity: 0;
+        transform: rotateZ(var(--angle)) translateY(0) rotateX(85deg) scale(0.2);
       }
-
-      12% {
-        opacity: 0.85;
-      }
-
-      100% {
-        transform: translateY(110vh) translateX(45px) rotate(260deg);
-        opacity: 0;
-      }
-    }
-
-    @keyframes sparkle {
-      0%, 100% {
-        opacity: 0.2;
-        transform: scale(1);
-      }
-
-      50% {
+      to {
         opacity: 1;
-        transform: scale(1.8);
+        transform: rotateZ(var(--angle)) translateY(42px) rotateX(35deg) scale(1);
+      }
+    }
+
+    @keyframes innerBloom {
+      from {
+        opacity: 0;
+        transform: rotateZ(var(--angle)) translateY(0) rotateX(80deg) scale(0.2);
+      }
+      to {
+        opacity: 1;
+        transform: rotateZ(var(--angle)) translateY(28px) rotateX(55deg) scale(1);
+      }
+    }
+
+    @keyframes centerPop {
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateZ(35px) scale(1);
+      }
+    }
+
+    @keyframes growStem {
+      to {
+        height: 230px;
+      }
+    }
+
+    @keyframes leafOpenLeft {
+      to {
+        opacity: 1;
+        transform: rotate(-28deg) scale(1);
+      }
+    }
+
+    @keyframes leafOpenRight {
+      to {
+        opacity: 1;
+        transform: rotate(205deg) scale(1);
+      }
+    }
+
+    @keyframes slowRotate {
+      from {
+        transform: translateX(-50%) rotateX(58deg) rotateZ(0deg);
+      }
+      to {
+        transform: translateX(-50%) rotateX(58deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes sceneFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(1deg);
+      }
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-40px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(110vh) translateX(45px) rotate(360deg);
+        opacity: 0;
       }
     }
 
     @media (max-width: 600px) {
-      .page {
-        transform: translateY(-55px);
-      }
-
       h1 {
+        top: 55px;
         font-size: clamp(3rem, 15vw, 4.4rem);
-        margin-bottom: 18px;
       }
 
-      .rose-card {
-        padding: 10px;
-        border-radius: 22px;
-      }
-
-      .real-rose {
-        width: 210px;
-        border-radius: 18px;
+      .flower-scene {
+        transform: scale(0.82);
+        margin-top: -40px;
       }
 
       .message {
+        bottom: 125px;
+        font-size: 0.9rem;
         max-width: 330px;
-        font-size: 0.92rem;
-        margin-top: 22px;
       }
 
       .next-btn {
@@ -207,42 +315,52 @@
 
 <body>
 
-  <main class="page">
-    <h1>For You</h1>
+  <h1>For You</h1>
 
-    <div class="rose-card">
-      <img src="rose.jpg" alt="Rose bouquet" class="real-rose">
+  <div class="flower-scene">
+    <div class="flower">
+      <span class="petal" style="--angle:0deg"></span>
+      <span class="petal" style="--angle:30deg"></span>
+      <span class="petal" style="--angle:60deg"></span>
+      <span class="petal" style="--angle:90deg"></span>
+      <span class="petal" style="--angle:120deg"></span>
+      <span class="petal" style="--angle:150deg"></span>
+      <span class="petal" style="--angle:180deg"></span>
+      <span class="petal" style="--angle:210deg"></span>
+      <span class="petal" style="--angle:240deg"></span>
+      <span class="petal" style="--angle:270deg"></span>
+      <span class="petal" style="--angle:300deg"></span>
+      <span class="petal" style="--angle:330deg"></span>
+
+      <span class="petal inner" style="--angle:45deg"></span>
+      <span class="petal inner" style="--angle:135deg"></span>
+      <span class="petal inner" style="--angle:225deg"></span>
+      <span class="petal inner" style="--angle:315deg"></span>
+
+      <span class="center"></span>
     </div>
 
-    <p class="message">
-      May your Eid bloom with happiness, love, smiles, and endless blessings.
-    </p>
-  </main>
+    <div class="stem"></div>
+    <span class="leaf left"></span>
+    <span class="leaf right"></span>
+  </div>
+
+  <p class="message">
+    May your Eid bloom with happiness, love, smiles, and endless blessings.
+  </p>
 
   <a href="#" class="next-btn">Next ➜</a>
 
   <script>
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 24; i++) {
       const petal = document.createElement("span");
-      petal.classList.add("falling-petal");
+      petal.className = "falling-petal";
 
       petal.style.left = Math.random() * 100 + "vw";
       petal.style.animationDuration = 7 + Math.random() * 5 + "s";
       petal.style.animationDelay = Math.random() * 6 + "s";
-      petal.style.transform = "scale(" + (0.7 + Math.random() * 0.6) + ")";
 
       document.body.appendChild(petal);
-    }
-
-    for (let i = 0; i < 25; i++) {
-      const sparkle = document.createElement("span");
-      sparkle.classList.add("sparkle");
-
-      sparkle.style.left = Math.random() * 100 + "vw";
-      sparkle.style.top = Math.random() * 100 + "vh";
-      sparkle.style.animationDelay = Math.random() * 3 + "s";
-
-      document.body.appendChild(sparkle);
     }
   </script>
 
