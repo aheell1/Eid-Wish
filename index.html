@@ -50,6 +50,7 @@
       text-shadow: 0 0 20px rgba(246, 196, 83, 0.7);
       line-height: 1.3;
       direction: rtl;
+      animation: textEntrance 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     .arabic-name {
@@ -61,6 +62,42 @@
       text-shadow: 0 0 14px rgba(246, 196, 83, 0.5);
       direction: rtl;
       font-weight: 400;
+      animation: textEntrance 1.4s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes textEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+        filter: blur(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    /* ── golden shimmer on main text ── */
+    .arabic-main {
+      background: linear-gradient(
+        90deg,
+        #F6C453 0%,
+        #ffe9a0 40%,
+        #F6C453 60%,
+        #e8a820 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textEntrance 1.4s cubic-bezier(0.22, 1, 0.36, 1) both,
+                 shimmer 4s 1.8s linear infinite;
+    }
+
+    @keyframes shimmer {
+      from { background-position: 0% center; }
+      to   { background-position: 200% center; }
     }
 
     /* ── Password Box ── */
@@ -74,6 +111,12 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
+      animation: pwEntrance 1.2s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes pwEntrance {
+      from { opacity: 0; transform: translateX(-50%) translateY(18px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     .password-label {
@@ -176,6 +219,12 @@
         0 0 22px rgba(201, 201, 201, 0.55);
       z-index: 2;
       overflow: hidden;
+      animation: moonGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes moonGlow {
+      0%, 100% { box-shadow: -32px 0 0 var(--background-color) inset, 0 0 22px rgba(201, 201, 201, 0.55), 0 0 55px rgba(201, 201, 201, 0.12); }
+      50%       { box-shadow: -32px 0 0 var(--background-color) inset, 0 0 38px rgba(201, 201, 201, 0.85), 0 0 80px rgba(201, 201, 201, 0.25); }
     }
 
     .moon span {
@@ -203,6 +252,44 @@
     @keyframes twinkle {
       0%, 100% { opacity: 0.25; transform: scale(1); }
       50%       { opacity: 1;    transform: scale(1.8); }
+    }
+
+    /* ── Shooting stars ── */
+    .shooting-star {
+      position: absolute;
+      width: 120px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(246,196,83,0) 0%, rgba(246,196,83,0.9) 60%, #fff 100%);
+      border-radius: 99px;
+      opacity: 0;
+      transform-origin: right center;
+      animation: shoot linear infinite;
+    }
+
+    @keyframes shoot {
+      0%   { opacity: 0; transform: translateX(0) translateY(0) rotate(-30deg); }
+      5%   { opacity: 1; }
+      40%  { opacity: 0.8; }
+      60%  { opacity: 0; transform: translateX(-380px) translateY(180px) rotate(-30deg); }
+      100% { opacity: 0; transform: translateX(-380px) translateY(180px) rotate(-30deg); }
+    }
+
+    /* ── Floating lanterns ── */
+    .lantern {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0) scale(0.6);  opacity: 0; }
+      10%  { opacity: 1; }
+      50%  { transform: translateY(-45vh) translateX(var(--sway)) scale(1); opacity: 0.65; }
+      90%  { opacity: 0.2; }
+      100% { transform: translateY(-100vh) translateX(calc(var(--sway) * 1.6)) scale(0.7); opacity: 0; }
     }
 
     /* ── Page transition overlay ── */
@@ -245,6 +332,8 @@
 <body>
 
   <div class="stars"></div>
+  <div class="lanterns"></div>
+  <div class="shooting-stars"></div>
 
   <div class="moon">
     <span></span><span></span><span></span>
@@ -285,7 +374,59 @@
       star.style.top  = Math.random() * 100 + "vh";
       star.style.animationDelay    = Math.random() * 3 + "s";
       star.style.animationDuration = 1.5 + Math.random() * 2.5 + "s";
+      /* vary size slightly */
+      const s = 2 + Math.random() * 2.5;
+      star.style.width  = s + "px";
+      star.style.height = s + "px";
       starsContainer.appendChild(star);
+    }
+
+    /* ── Shooting stars ── */
+    const shootContainer = document.querySelector(".shooting-stars");
+    const shootData = [
+      { top: "12%", left: "80%", delay: "3.5s",  dur: "9s"  },
+      { top: "8%",  left: "55%", delay: "11s",   dur: "8s"  },
+      { top: "20%", left: "65%", delay: "18s",   dur: "10s" },
+      { top: "6%",  left: "40%", delay: "25s",   dur: "8.5s"},
+      { top: "15%", left: "90%", delay: "33s",   dur: "9.5s"},
+    ];
+    shootData.forEach(d => {
+      const el = document.createElement("div");
+      el.classList.add("shooting-star");
+      el.style.top              = d.top;
+      el.style.left             = d.left;
+      el.style.animationDelay   = d.delay;
+      el.style.animationDuration= d.dur;
+      shootContainer.appendChild(el);
+    });
+
+    /* ── Floating lanterns ── */
+    const lanternContainer = document.querySelector(".lanterns");
+    const lanternColors = [
+      "rgba(246,196,83,0.55)",
+      "rgba(255,160,80,0.45)",
+      "rgba(246,196,83,0.35)",
+      "rgba(255,200,120,0.5)",
+      "rgba(220,150,60,0.4)",
+    ];
+    for (let i = 0; i < 10; i++) {
+      const el = document.createElement("div");
+      el.classList.add("lantern");
+      const size  = 6 + Math.random() * 12;
+      const color = lanternColors[Math.floor(Math.random() * lanternColors.length)];
+      const sway  = (Math.random() - 0.5) * 120;
+      el.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        background: ${color};
+        box-shadow: 0 0 ${size * 2}px ${size}px ${color};
+        bottom: ${-size}px;
+        left: ${5 + Math.random() * 90}%;
+        --sway: ${sway}px;
+        animation-delay: ${Math.random() * 18}s;
+        animation-duration: ${14 + Math.random() * 12}s;
+      `;
+      lanternContainer.appendChild(el);
     }
 
     /* ── Password ── */
@@ -306,7 +447,7 @@
       } else {
         errMsg.classList.add("visible");
         pwWrapper.classList.remove("shake");
-        void pwWrapper.offsetWidth; // reflow to restart animation
+        void pwWrapper.offsetWidth;
         pwWrapper.classList.add("shake");
         pwInput.value = "";
         pwInput.focus();
