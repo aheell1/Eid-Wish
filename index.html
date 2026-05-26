@@ -164,37 +164,35 @@
       to   { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    .password-wrapper {
-      position: fixed;
-      left: 50%;
-      bottom: 38px;
-      transform: translateX(-50%);
-      z-index: 20;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 9px;
-      width: 100%;
-      max-width: 340px;
-      animation: fade-rise 1.2s ease forwards 2.4s;
-    }
+   .password-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 38px;
+  z-index: 20;
 
-    .password-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(246,196,83,0.12);
-      border: 1px solid rgba(246,196,83,0.5);
-      border-radius: 40px;
-      width: 100%;
-      max-width: 300px;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    .lock-icon {
-      padding-left: 15px;
-      color: var(--gold);
-    }
+  width: 100%;
 
+  animation: fade-rise 1.2s ease forwards 2.4s;
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(246,196,83,0.12);
+  border: 1px solid rgba(246,196,83,0.5);
+  border-radius: 40px;
+
+  width: min(300px, 90vw);
+  margin: 0 auto;
+}
     .password-input {
       flex: 1;
       background: transparent;
