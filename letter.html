@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Letter For You</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+SC:wght@300;400&family=DM+Sans:wght@300;400&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:    #070f1e;
+  --card:  #0f1c35;
+  --gold:  #c9a84c;
+  --glow:  #f5d06a;
+  --dim:   #7a6228;
+  --ivory: #f0ead8;
+  --slate: #162440;
+  --ink:   #f0ead8;
+  --paper: rgba(240,234,216,0.04);
+  --border:rgba(201,168,76,0.35);
+}
+
+html,body{
+  width:100%;min-height:100vh;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* ── STARS CANVAS ── */
+#sc{position:fixed;inset:0;pointer-events:none;z-index:0}
+
+/* ── AMBIENT FLOATING HEARTS CANVAS ── */
+#hearts-canvas{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  opacity:0;transition:opacity 1.2s ease;
+}
+#hearts-canvas.active{opacity:1}
+
+/* ── STAGE WRAPPER ── */
+#app{
+  position:relative;z-index:1;
+  width:min(520px,94vw);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 0;
+}
+
+/* ══════════════════════════════════
+   STAGE 1 — ENVELOPE
+══════════════════════════════════ */
+#stage-envelope{
+  display:flex;flex-direction:column;align-items:center;gap:28px;
+  transition:opacity .6s ease, transform .6s ease;
+}
+#stage-envelope.hiding{opacity:0;transform:translateY(30px) scale(.96)}
+
+.envelope-wrap{
+  position:relative;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  filter:drop-shadow(0 0 0px rgba(201,168,76,0));
+  transition:filter .4s ease, transform .3s ease;
+}
+.envelope-wrap:hover{
+  filter:drop-shadow(0 0 22px rgba(201,168,76,.4));
+  transform:translateY(-4px);
+}
+.envelope-wrap:hover .seal-ring{
+  stroke-dashoffset:0;
+}
+
+.seal-ring{
+  stroke-dasharray:220;
+  stroke-dashoffset:220;
+  transition:stroke-dashoffset 1s ease .1s;
+}
+.envelope-wrap:hover .seal-ring{stroke-dashoffset:0}
+
+.seal-pulse{
+  animation:sealBeat 2.2s ease-in-out infinite;
+  transform-origin:50% 50%;
+}
+@keyframes sealBeat{0%,100%{transform:scale(1)}45%{transform:scale(1.07)}65%{transform:scale(.97)}}
+
+.env-hint{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  color:var(--gold);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.75;
+  animation:hintBlink 3s ease-in-out infinite;
+}
+@keyframes hintBlink{0%,100%{opacity:.55}50%{opacity:.9}}
+
+.env-title{
+  font-family:'Cormorant SC',serif;
+  font-size:clamp(18px,4.5vw,26px);
+  font-weight:300;
+  color:var(--ivory);
+  letter-spacing:.12em;
+  text-align:center;
+  text-shadow:0 0 30px rgba(245,208,106,.2);
+}
+
+/* ══════════════════════════════════
+   STAGE 2 — VAULT
+══════════════════════════════════ */
+#stage-vault{
+  display:none;flex-direction:column;align-items:center;gap:32px;
+  width:100%;
+  transition:opacity .6s ease, transform .6s ease;
+  opacity:0;transform:translateY(20px);
+}
+#stage-vault.visible{opacity:1;transform:translateY(0)}
+#stage-vault.hiding{opacity:0;transform:translateY(-20px)}
+
+.vault-title{
+  font-family:'Cormorant SC',serif;
+  font-size:clamp(20px,5vw,28px);
+  font-weight:300;
+  color:var(--ivory);
+  letter-spacing:.1em;
+  text-align:center;
+  text-shadow:0 0 30px rgba(245,208,106,.2);
+}
+.vault-subtitle{
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  font-weight:300;
+  color:var(--gold);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  opacity:.7;
+  margin-top:-20px;
+  text-align:center;
+}
+
+/* Connection gauge */
+.gauge-wrap{
+  width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.gauge-label{
+  font-family:'DM Sans',sans-serif;
+  font-size:11px;
+  font-weight:300;
+  color:var(--dim);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+.gauge-track{
+  width:min(280px,80vw);
+  height:2px;
+  background:rgba(201,168,76,.15);
+  border-radius:99px;
+  overflow:hidden;
+}
+.gauge-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--dim),var(--glow));
+  border-radius:99px;
+  transition:width .7s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(245,208,106,.4);
+}
+
+/* Key cards */
+.keys-grid{
+  display:flex;flex-direction:column;gap:14px;
+  width:100%;
+}
+.key-card{
+  position:relative;
+  display:flex;align-items:center;gap:18px;
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:border-color .3s, background .3s, transform .2s;
+  overflow:hidden;
+}
+.key-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.05),transparent);
+  transform:translateX(-100%);
+  transition:transform .5s ease;
+}
+.key-card:hover::before{transform:translateX(100%)}
+.key-card:hover:not(.unlocked){
+  border-color:rgba(201,168,76,.55);
+  background:rgba(201,168,76,.04);
+  transform:translateX(3px);
+}
+.key-card.unlocked{
+  border-color:rgba(201,168,76,.5);
+  background:rgba(201,168,76,.06);
+  cursor:default;
+}
+.key-card.unlocked .key-icon-wrap{
+  filter:drop-shadow(0 0 8px rgba(245,208,106,.5));
+}
+.key-card.pop svg{animation:keyPop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes keyPop{0%{transform:scale(1)}40%{transform:scale(1.3) rotate(-8deg)}100%{transform:scale(1)}}
+
+.key-icon-wrap{
+  flex-shrink:0;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  transition:filter .4s;
+}
+.key-text{flex:1}
+.key-name{
+  font-family:'Cormorant SC',serif;
+  font-size:13px;
+  font-weight:400;
+  color:var(--ivory);
+  letter-spacing:.1em;
+  margin-bottom:5px;
+}
+.key-reveal{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:14.5px;
+  color:var(--gold);
+  line-height:1.55;
+  max-height:0;overflow:hidden;
+  transition:max-height .5s ease, opacity .5s ease;
+  opacity:0;
+}
+.key-card.unlocked .key-reveal{max-height:80px;opacity:1}
+.key-lock-hint{
+  font-family:'DM Sans',sans-serif;
+  font-size:10.5px;
+  font-weight:300;
+  color:rgba(201,168,76,.5);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:opacity .3s;
+}
+.key-card.unlocked .key-lock-hint{opacity:0;position:absolute}
+
+/* ══════════════════════════════════
+   STAGE 3 — LETTER
+══════════════════════════════════ */
+#stage-letter{
+  display:none;flex-direction:column;align-items:center;gap:0;
+  width:100%;
+  opacity:0;transform:translateY(40px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+#stage-letter.visible{opacity:1;transform:translateY(0)}
+
+.letter-paper{
+  position:relative;
+  width:100%;
+  background:rgba(240,234,216,.035);
+  border:1px solid rgba(201,168,76,.25);
+  border-radius:4px 4px 4px 4px;
+  padding:clamp(28px,7vw,52px) clamp(24px,6vw,48px);
+  box-shadow:
+    0 0 80px rgba(201,168,76,.05),
+    0 40px 80px rgba(0,0,0,.5),
+    inset 0 0 40px rgba(201,168,76,.02);
+}
+
+/* Corner ornaments */
+.letter-paper::before,.letter-paper::after{
+  content:'';
+  position:absolute;
+  width:28px;height:28px;
+  border-color:rgba(201,168,76,.4);
+  border-style:solid;
+}
+.letter-paper::before{top:12px;left:12px;border-width:1px 0 0 1px}
+.letter-paper::after{bottom:12px;right:12px;border-width:0 1px 1px 0}
+
+.letter-corner-tr,.letter-corner-bl{
+  position:absolute;
+  width:28px;height:28px;
+  border-color:rgba(201,168,76,.4);
+  border-style:solid;
+}
+.letter-corner-tr{top:12px;right:12px;border-width:1px 1px 0 0}
+.letter-corner-bl{bottom:12px;left:12px;border-width:0 0 1px 1px}
+
+/* Decorative top rule */
+.letter-rule{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:32px;
+}
+.letter-rule-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+
+/* Letter text */
+.letter-salutation{
+  font-family:'Cormorant SC',serif;
+  font-size:clamp(13px,3vw,16px);
+  font-weight:300;
+  color:rgba(201,168,76,.7);
+  letter-spacing:.18em;
+  margin-bottom:24px;
+  text-transform:uppercase;
+}
+#letter-body{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,4vw,19px);
+  line-height:1.9;
+  color:var(--ivory);
+  min-height:100px;
+}
+#letter-body .line{
+  display:block;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .5s ease, transform .5s ease;
+  margin-bottom:2px;
+}
+#letter-body .line.revealed{opacity:1;transform:translateY(0)}
+#letter-body .line.italic{font-style:italic;color:rgba(240,234,216,.75)}
+
+.letter-sign{
+  margin-top:36px;
+  display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .6s ease .2s, transform .6s ease .2s;
+}
+.letter-sign.revealed{opacity:1;transform:translateY(0)}
+.letter-sign-with{
+  font-family:'DM Sans',sans-serif;
+  font-size:11px;
+  font-weight:300;
+  color:rgba(201,168,76,.55);
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+.letter-sign-name{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(20px,5vw,28px);
+  color:var(--glow);
+  text-shadow:0 0 20px rgba(245,208,106,.3);
+}
+
+/* Cursor blink */
+.cursor{
+  display:inline-block;
+  width:2px;height:1.1em;
+  background:var(--gold);
+  vertical-align:middle;
+  margin-left:2px;
+  animation:cursorBlink .85s step-end infinite;
+}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── SHARED FADE-IN utility ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<canvas id="sc"></canvas>
+<canvas id="hearts-canvas"></canvas>
+
+<div id="app">
+
+  <!-- ═══ STAGE 1: ENVELOPE ═══ -->
+  <div id="stage-envelope">
+    <div class="env-title">A letter,<br>for you.</div>
+
+    <div class="envelope-wrap" id="envelope" title="Open the envelope">
+      <svg width="min(300px,82vw)" viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg"
+           style="width:min(300px,82vw);height:auto;display:block">
+
+        <!-- envelope body -->
+        <rect x="10" y="60" width="280" height="150" rx="6"
+              fill="rgba(240,234,216,.04)" stroke="rgba(201,168,76,.45)" stroke-width="1.3"/>
+
+        <!-- envelope back flap (triangle top) -->
+        <path d="M10 66 L150 148 L290 66"
+              fill="rgba(240,234,216,.02)" stroke="rgba(201,168,76,.35)" stroke-width="1.2"/>
+
+        <!-- left fold -->
+        <line x1="10" y1="210" x2="115" y2="145" stroke="rgba(201,168,76,.25)" stroke-width="1"/>
+        <!-- right fold -->
+        <line x1="290" y1="210" x2="185" y2="145" stroke="rgba(201,168,76,.25)" stroke-width="1"/>
+
+        <!-- decorative border lines inside envelope -->
+        <rect x="18" y="68" width="264" height="134" rx="3"
+              fill="none" stroke="rgba(201,168,76,.1)" stroke-width=".8" stroke-dasharray="4 4"/>
+
+        <!-- address lines -->
+        <line x1="80" y1="148" x2="220" y2="148" stroke="rgba(201,168,76,.2)" stroke-width=".8"/>
+        <line x1="100" y1="162" x2="200" y2="162" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+
+        <!-- ring around seal (animated on hover) -->
+        <circle cx="150" cy="107" r="34"
+                fill="none" stroke="rgba(201,168,76,.6)" stroke-width="1"
+                stroke-dasharray="220" stroke-dashoffset="220"
+                class="seal-ring"/>
+
+        <!-- wax seal group -->
+        <g class="seal-pulse" id="seal-group">
+          <!-- seal background circle -->
+          <circle cx="150" cy="107" r="28"
+                  fill="rgba(15,28,53,1)" stroke="rgba(201,168,76,.8)" stroke-width="1.4"/>
+          <!-- heart -->
+          <path d="M150 120 C150 120 130 108 130 98 C130 92 135 87 140 87 C144 87 148 90 150 93 C152 90 156 87 160 87 C165 87 170 92 170 98 C170 108 150 120 150 120 Z"
+                fill="rgba(201,168,76,.9)" stroke="rgba(201,168,76,1)" stroke-width=".5"/>
+          <!-- decorative dots on seal -->
+          <circle cx="135" cy="108" r="1.5" fill="rgba(240,234,216,.3)"/>
+          <circle cx="165" cy="108" r="1.5" fill="rgba(240,234,216,.3)"/>
+          <circle cx="150" cy="88" r="1.2" fill="rgba(240,234,216,.25)"/>
+        </g>
+
+        <!-- stamp top-right corner -->
+        <rect x="248" y="72" width="30" height="22" rx="2"
+              fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.3)" stroke-width=".8"/>
+        <path d="M253 83 Q258 77 263 83 Q268 77 273 83" fill="none" stroke="rgba(201,168,76,.4)" stroke-width=".8"/>
+      </svg>
+    </div>
+
+    <div class="env-hint">Tap the seal to open</div>
+  </div>
+
+  <!-- ═══ STAGE 2: VAULT ═══ -->
+  <div id="stage-vault">
+    <div>
+      <div class="vault-title">Memory Vault</div>
+      <div class="vault-subtitle" style="margin-top:6px">Unlock what we share</div>
+    </div>
+
+    <div class="gauge-wrap">
+      <div class="gauge-label">Connection <span id="gauge-count">0</span> / 3</div>
+      <div class="gauge-track"><div class="gauge-fill" id="gauge-fill"></div></div>
+    </div>
+
+    <div class="keys-grid">
+
+      <!-- Key 1 -->
+      <div class="key-card" id="key-1" data-key="1">
+        <div class="key-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- laugh / smile key icon -->
+            <circle cx="19" cy="19" r="16" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
+            <path d="M13 20 Q19 28 25 20" stroke="rgba(201,168,76,.9)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            <circle cx="14" cy="16" r="1.8" fill="rgba(201,168,76,.85)"/>
+            <circle cx="24" cy="16" r="1.8" fill="rgba(201,168,76,.85)"/>
+            <!-- key stem -->
+            <line x1="19" y1="35" x2="19" y2="30" stroke="rgba(201,168,76,.5)" stroke-width="1" stroke-dasharray="1 2"/>
+          </svg>
+        </div>
+        <div class="key-text">
+          <div class="key-name">A Shared Laugh</div>
+          <div class="key-lock-hint">Click to unlock ✦</div>
+          <div class="key-reveal">The kind of laugh that makes everything lighter — even a difficult day turns golden with yours.</div>
+        </div>
+      </div>
+
+      <!-- Key 2 -->
+      <div class="key-card" id="key-2" data-key="2">
+        <div class="key-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- support / anchor icon -->
+            <circle cx="19" cy="10" r="4" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
+            <line x1="19" y1="14" x2="19" y2="28" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
+            <path d="M10 22 Q10 32 19 32 Q28 32 28 22" stroke="rgba(201,168,76,.7)" stroke-width="1.2" fill="none"/>
+            <line x1="13" y1="19" x2="25" y2="19" stroke="rgba(201,168,76,.5)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="key-text">
+          <div class="key-name">A Quiet Support</div>
+          <div class="key-lock-hint">Click to unlock ✦</div>
+          <div class="key-reveal">You never needed grand gestures to show you care — your presence alone has always been enough.</div>
+        </div>
+      </div>
+
+      <!-- Key 3 -->
+      <div class="key-card" id="key-3" data-key="3">
+        <div class="key-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- future / star-compass icon -->
+            <circle cx="19" cy="19" r="15" stroke="rgba(201,168,76,.45)" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M19 7 L21 16 L30 19 L21 22 L19 31 L17 22 L8 19 L17 16 Z"
+                  fill="rgba(201,168,76,.15)" stroke="rgba(201,168,76,.85)" stroke-width="1.1" stroke-linejoin="round"/>
+            <circle cx="19" cy="19" r="2" fill="rgba(201,168,106,.8)"/>
+          </svg>
+        </div>
+        <div class="key-text">
+          <div class="key-name">A Future Wish</div>
+          <div class="key-lock-hint">Click to unlock ✦</div>
+          <div class="key-reveal">May every good thing that comes your way feel as beautiful as the way you make people feel.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 3: LETTER ═══ -->
+  <div id="stage-letter">
+    <div class="letter-paper">
+      <div class="letter-corner-tr"></div>
+      <div class="letter-corner-bl"></div>
+
+      <div class="letter-rule">
+        <div class="letter-rule-line"></div>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 2 L10.3 7 L15 9 L10.3 11 L9 16 L7.7 11 L3 9 L7.7 7 Z"
+                fill="none" stroke="rgba(201,168,76,.6)" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <div class="letter-rule-line"></div>
+      </div>
+
+      <div class="letter-salutation">For someone who matters —</div>
+
+      <div id="letter-body"></div>
+
+      <div class="letter-sign" id="letter-sign">
+        <span class="letter-sign-with">with love,</span>
+        <span class="letter-sign-name">Aahil ✨</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+/* ═══════════════════════════════════
+   STARS
+═══════════════════════════════════ */
+(function(){
+  const c=document.getElementById('sc'),ctx=c.getContext('2d');
+  let st=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  function make(){st=[];for(let i=0;i<160;i++)st.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.2+.25,a:Math.random(),da:(Math.random()-.5)*.004});}
+  function draw(){ctx.clearRect(0,0,c.width,c.height);for(const s of st){s.a=Math.max(.06,Math.min(1,s.a+s.da));if(s.a<=.06||s.a>=1)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,234,216,${s.a})`;ctx.fill();}requestAnimationFrame(draw);}
+  window.addEventListener('resize',()=>{resize();make();});
+  resize();make();draw();
+})();
+
+/* ═══════════════════════════════════
+   FLOATING HEARTS
+═══════════════════════════════════ */
+const hCanvas = document.getElementById('hearts-canvas');
+const hCtx = hCanvas.getContext('2d');
+let hearts = [];
+let heartsActive = false;
+
+function resizeHearts(){hCanvas.width=innerWidth;hCanvas.height=innerHeight;}
+window.addEventListener('resize', resizeHearts);
+resizeHearts();
+
+function spawnHeart(){
+  const x = Math.random() * hCanvas.width;
+  const size = 6 + Math.random()*10;
+  const speed = .4 + Math.random()*.5;
+  const wobble = (Math.random()-.5)*1.2;
+  hearts.push({x, y: hCanvas.height + 20, size, speed, wobble, alpha: 0, phase: Math.random()*Math.PI*2});
+}
+
+function drawHeartPath(ctx, x, y, s){
+  ctx.beginPath();
+  ctx.moveTo(x, y + s*0.3);
+  ctx.bezierCurveTo(x, y, x - s*0.5, y - s*0.3, x - s*0.5, y - s*0.6);
+  ctx.bezierCurveTo(x - s*0.5, y - s*1.1, x, y - s*0.9, x, y - s*0.6);
+  ctx.bezierCurveTo(x, y - s*0.9, x + s*0.5, y - s*1.1, x + s*0.5, y - s*0.6);
+  ctx.bezierCurveTo(x + s*0.5, y - s*0.3, x, y, x, y + s*0.3);
+  ctx.closePath();
+}
+
+let heartSpawnTimer = 0;
+function animHearts(ts){
+  if(!heartsActive) return;
+  requestAnimationFrame(animHearts);
+  hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+
+  heartSpawnTimer++;
+  if(heartSpawnTimer % 28 === 0) spawnHeart();
+
+  hearts = hearts.filter(h => h.alpha > 0.01 || h.y > 0);
+  for(const h of hearts){
+    h.y -= h.speed;
+    h.x += Math.sin(h.phase + h.y * 0.018) * h.wobble;
+    const lifeRatio = 1 - (h.y / hCanvas.height);
+    if(h.y > hCanvas.height * .85) h.alpha = Math.min(h.alpha + .03, .55);
+    if(h.y < hCanvas.height * .25) h.alpha = Math.max(h.alpha - .012, 0);
+
+    hCtx.save();
+    hCtx.globalAlpha = h.alpha;
+    drawHeartPath(hCtx, h.x, h.y, h.size);
+    hCtx.fillStyle = 'rgba(201,168,76,0.7)';
+    hCtx.fill();
+    hCtx.strokeStyle = 'rgba(245,208,106,0.5)';
+    hCtx.lineWidth = .6;
+    hCtx.stroke();
+    hCtx.restore();
+  }
+}
+
+function startHearts(){
+  heartsActive = true;
+  hCanvas.classList.add('active');
+  requestAnimationFrame(animHearts);
+}
+
+/* ═══════════════════════════════════
+   STAGE TRANSITIONS
+═══════════════════════════════════ */
+const stageEnvelope = document.getElementById('stage-envelope');
+const stageVault    = document.getElementById('stage-vault');
+const stageLetter   = document.getElementById('stage-letter');
+
+function goToVault(){
+  stageEnvelope.classList.add('hiding');
+  setTimeout(()=>{
+    stageEnvelope.style.display='none';
+    stageVault.style.display='flex';
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        stageVault.classList.add('visible');
+      });
+    });
+  }, 600);
+}
+
+function goToLetter(){
+  stageVault.classList.add('hiding');
+  setTimeout(()=>{
+    stageVault.style.display='none';
+    stageLetter.style.display='flex';
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        stageLetter.classList.add('visible');
+        startTypewriter();
+      });
+    });
+  }, 600);
+}
+
+/* ═══════════════════════════════════
+   STAGE 1 — ENVELOPE CLICK
+═══════════════════════════════════ */
+document.getElementById('envelope').addEventListener('click', goToVault);
+document.getElementById('envelope').addEventListener('touchstart', e=>{e.preventDefault();goToVault();},{passive:false});
+
+/* ═══════════════════════════════════
+   STAGE 2 — VAULT / KEYS
+═══════════════════════════════════ */
+let unlockedCount = 0;
+const gaugeFill   = document.getElementById('gauge-fill');
+const gaugeCount  = document.getElementById('gauge-count');
+
+document.querySelectorAll('.key-card').forEach(card=>{
+  function unlock(){
+    if(card.classList.contains('unlocked')) return;
+    card.classList.add('unlocked');
+    card.classList.add('pop');
+    card.addEventListener('animationend', ()=>card.classList.remove('pop'),{once:true});
+    unlockedCount++;
+    gaugeCount.textContent = unlockedCount;
+    gaugeFill.style.width = (unlockedCount/3*100)+'%';
+    if(unlockedCount===3){
+      setTimeout(goToLetter, 1100);
+    }
+  }
+  card.addEventListener('click', unlock);
+  card.addEventListener('touchstart', e=>{e.preventDefault();unlock();},{passive:false});
+});
+
+/* ═══════════════════════════════════
+   STAGE 3 — TYPEWRITER
+═══════════════════════════════════ */
+const letterLines = [
+  {text:"I hope your Eid went well.", italic:false},
+  {text:"And I pray that every Eid ahead brings you happiness, peace,", italic:false},
+  {text:"and lots of reasons to smile.", italic:true},
+  {text:"No matter what kind of phase you're going through —", italic:false},
+  {text:"good or bad — just know that I'll always be there for you.", italic:false},
+  {text:"And thank you for existing, honestly.", italic:false},
+  {text:"You mean a lot more to me than you probably realize.", italic:false},
+  {text:"Some people just become important without even trying,", italic:false},
+  {text:"and somehow you became one of those people for me.", italic:true},
+  {text:"Even one message from you can make my whole day better.", italic:false},
+  {text:"Maybe that's why normal wishes never feel enough", italic:false},
+  {text:"when it comes to you… because you're not normal to me.", italic:true},
+  {text:"You're genuinely one of the most special people in my life.", italic:false},
+];
+
+function startTypewriter(){
+  const body = document.getElementById('letter-body');
+  const sign = document.getElementById('letter-sign');
+  body.innerHTML = '';
+
+  // Create all line elements, hidden
+  const lineEls = letterLines.map((l,i)=>{
+    const span = document.createElement('span');
+    span.className = 'line' + (l.italic?' italic':'');
+    span.textContent = l.text;
+    body.appendChild(span);
+    return span;
+  });
+
+  // Add cursor
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  body.appendChild(cursor);
+
+  // Reveal lines one by one
+  let i = 0;
+  const delay = 520; // ms per line
+
+  function revealNext(){
+    if(i >= lineEls.length){
+      // Done — show signature, start hearts
+      cursor.remove();
+      sign.classList.add('revealed');
+      setTimeout(startHearts, 800);
+      return;
+    }
+    // Move cursor after this line
+    lineEls[i].after(cursor);
+    lineEls[i].classList.add('revealed');
+    i++;
+    setTimeout(revealNext, delay);
+  }
+
+  setTimeout(revealNext, 500);
+}
+</script>
+</body>
+</html>
