@@ -38,8 +38,9 @@
       text-align: center;
       position: relative;
       z-index: 5;
-      padding: 0 20px;
-      transform: translateY(-35px);
+      padding: 0 clamp(16px, 5vw, 60px);
+      /* shifted up a little on all screens, less aggressive on mobile */
+      transform: translateY(clamp(-55px, -4vh, -20px));
     }
 
     .arabic-main {
@@ -78,7 +79,7 @@
       }
     }
 
-    /* ── golden shimmer on main text ── */
+    
     .arabic-main {
       background: linear-gradient(
         90deg,
@@ -100,10 +101,9 @@
       to   { background-position: 200% center; }
     }
 
-    /* ── Password Box ── */
     .password-wrapper {
       position: fixed;
-      bottom: 36px;
+      bottom: clamp(24px, 4vh, 48px);
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
@@ -111,6 +111,8 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
+      width: max-content;
+      max-width: calc(100vw - 40px);
       animation: pwEntrance 1.2s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
@@ -152,7 +154,7 @@
       font-family: "Amiri", serif;
       font-size: 1rem;
       color: var(--contrast-color);
-      width: 160px;
+      width: clamp(130px, 36vw, 200px);
       letter-spacing: 1px;
     }
 
@@ -192,7 +194,7 @@
       opacity: 1;
     }
 
-    /* shake animation on wrong password */
+ 
     @keyframes shake {
       0%, 100% { transform: translateX(-50%); }
       20%       { transform: translateX(calc(-50% - 8px)); }
@@ -205,7 +207,7 @@
       animation: shake 0.45s ease;
     }
 
-    /* ── Moon ── */
+
     .moon {
       position: absolute;
       right: 7%;
@@ -238,7 +240,7 @@
     .moon span:nth-child(2) { width: 10px; height: 10px; top: 60px; left: 70px; }
     .moon span:nth-child(3) { width: 13px; height: 13px; top: 78px; left: 38px; }
 
-    /* ── Stars ── */
+   
     .star {
       position: absolute;
       width: 3px;
@@ -254,7 +256,7 @@
       50%       { opacity: 1;    transform: scale(1.8); }
     }
 
-    /* ── Shooting stars ── */
+   
     .shooting-star {
       position: absolute;
       width: 120px;
@@ -274,7 +276,7 @@
       100% { opacity: 0; transform: translateX(-380px) translateY(180px) rotate(-30deg); }
     }
 
-    /* ── Floating lanterns ── */
+  
     .lantern {
       position: absolute;
       border-radius: 50%;
@@ -292,7 +294,7 @@
       100% { transform: translateY(-100vh) translateX(calc(var(--sway) * 1.6)) scale(0.7); opacity: 0; }
     }
 
-    /* ── Page transition overlay ── */
+ 
     .overlay {
       position: fixed;
       inset: 0;
@@ -308,14 +310,23 @@
       pointer-events: all;
     }
 
-    /* ── Mobile ── */
+ 
     @media (max-width: 600px) {
-      .content { transform: translateY(-70px); }
+      .content {
+        transform: translateY(clamp(-80px, -8vh, -40px));
+        padding: 0 20px;
+      }
 
       .arabic-main { font-size: clamp(2.2rem, 11vw, 3.2rem); }
       .arabic-name  { font-size: clamp(1.8rem, 9vw,  2.6rem); }
 
-      .password-wrapper { bottom: 60px; }
+      .password-wrapper {
+        bottom: clamp(20px, 5vh, 44px);
+      }
+
+      .password-input {
+        width: clamp(120px, 44vw, 160px);
+      }
 
       .moon {
         width: 70px; height: 70px;
@@ -325,6 +336,15 @@
       .moon span:nth-child(1) { width: 10px; height: 10px; top: 18px; left: 28px; }
       .moon span:nth-child(2) { width:  7px; height:  7px; top: 38px; left: 44px; }
       .moon span:nth-child(3) { width:  9px; height:  9px; top: 50px; left: 25px; }
+    }
+
+    @media (min-width: 1200px) {
+      .content {
+        transform: translateY(-40px);
+      }
+      .password-wrapper {
+        bottom: 48px;
+      }
     }
   </style>
 </head>
@@ -344,7 +364,7 @@
     <p class="arabic-name">نائلة</p>
   </main>
 
-  <!-- Password Box -->
+
   <div class="password-wrapper" id="pwWrapper">
     <span class="password-label">Enter to open ✦</span>
     <div class="password-row">
@@ -365,7 +385,7 @@
   <div class="overlay" id="overlay"></div>
 
   <script>
-    /* ── Stars ── */
+    
     const starsContainer = document.querySelector(".stars");
     for (let i = 0; i < 80; i++) {
       const star = document.createElement("span");
@@ -374,14 +394,13 @@
       star.style.top  = Math.random() * 100 + "vh";
       star.style.animationDelay    = Math.random() * 3 + "s";
       star.style.animationDuration = 1.5 + Math.random() * 2.5 + "s";
-      /* vary size slightly */
       const s = 2 + Math.random() * 2.5;
       star.style.width  = s + "px";
       star.style.height = s + "px";
       starsContainer.appendChild(star);
     }
 
-    /* ── Shooting stars ── */
+
     const shootContainer = document.querySelector(".shooting-stars");
     const shootData = [
       { top: "12%", left: "80%", delay: "3.5s",  dur: "9s"  },
@@ -400,7 +419,7 @@
       shootContainer.appendChild(el);
     });
 
-    /* ── Floating lanterns ── */
+
     const lanternContainer = document.querySelector(".lanterns");
     const lanternColors = [
       "rgba(246,196,83,0.55)",
@@ -429,7 +448,6 @@
       lanternContainer.appendChild(el);
     }
 
-    /* ── Password ── */
     const PASSWORD   = "Nailla25";
     const NEXT_PAGE  = "rose.html";
 
