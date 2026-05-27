@@ -94,19 +94,19 @@ html,body{
   color:var(--gold);
   letter-spacing:.18em;
   text-transform:uppercase;
-  opacity:.75;
+  opacity:.9;
   animation:hintBlink 3s ease-in-out infinite;
 }
-@keyframes hintBlink{0%,100%{opacity:.55}50%{opacity:.9}}
+@keyframes hintBlink{0%,100%{opacity:.7}50%{opacity:1}}
 
 .env-title{
   font-family:'Cormorant SC',serif;
   font-size:clamp(18px,4.5vw,26px);
-  font-weight:300;
-  color:var(--ivory);
+  font-weight:400;
+  color:#fff;
   letter-spacing:.12em;
   text-align:center;
-  text-shadow:0 0 30px rgba(245,208,106,.2);
+  text-shadow:0 0 30px rgba(245,208,106,.3);
 }
 
 /* ══════════════════════════════════
@@ -124,20 +124,20 @@ html,body{
 .vault-title{
   font-family:'Cormorant SC',serif;
   font-size:clamp(20px,5vw,28px);
-  font-weight:300;
-  color:var(--ivory);
+  font-weight:400;
+  color:#fff;
   letter-spacing:.1em;
   text-align:center;
-  text-shadow:0 0 30px rgba(245,208,106,.2);
+  text-shadow:0 0 30px rgba(245,208,106,.3);
 }
 .vault-subtitle{
   font-family:'DM Sans',sans-serif;
   font-size:12px;
   font-weight:300;
-  color:var(--gold);
+  color:var(--glow);
   letter-spacing:.2em;
   text-transform:uppercase;
-  opacity:.7;
+  opacity:.85;
   margin-top:-20px;
   text-align:center;
 }
@@ -150,14 +150,15 @@ html,body{
   font-family:'DM Sans',sans-serif;
   font-size:11px;
   font-weight:300;
-  color:var(--dim);
+  color:var(--glow);
   letter-spacing:.22em;
   text-transform:uppercase;
+  opacity:.85;
 }
 .gauge-track{
   width:min(280px,80vw);
   height:2px;
-  background:rgba(201,168,76,.15);
+  background:rgba(201,168,76,.2);
   border-radius:99px;
   overflow:hidden;
 }
@@ -196,13 +197,13 @@ html,body{
 }
 .key-card:hover::before{transform:translateX(100%)}
 .key-card:hover:not(.unlocked){
-  border-color:rgba(201,168,76,.55);
-  background:rgba(201,168,76,.04);
+  border-color:rgba(201,168,76,.65);
+  background:rgba(201,168,76,.06);
   transform:translateX(3px);
 }
 .key-card.unlocked{
-  border-color:rgba(201,168,76,.5);
-  background:rgba(201,168,76,.06);
+  border-color:rgba(201,168,76,.6);
+  background:rgba(201,168,76,.07);
   cursor:default;
 }
 .key-card.unlocked .key-icon-wrap{
@@ -220,18 +221,18 @@ html,body{
 .key-text{flex:1}
 .key-name{
   font-family:'Cormorant SC',serif;
-  font-size:13px;
+  font-size:14px;
   font-weight:400;
-  color:var(--ivory);
+  color:#fff;
   letter-spacing:.1em;
   margin-bottom:5px;
 }
 .key-reveal{
   font-family:'Cormorant Garamond',serif;
   font-style:italic;
-  font-size:14.5px;
-  color:var(--gold);
-  line-height:1.55;
+  font-size:15.5px;
+  color:var(--glow);
+  line-height:1.6;
   max-height:0;overflow:hidden;
   transition:max-height .5s ease, opacity .5s ease;
   opacity:0;
@@ -239,9 +240,9 @@ html,body{
 .key-card.unlocked .key-reveal{max-height:80px;opacity:1}
 .key-lock-hint{
   font-family:'DM Sans',sans-serif;
-  font-size:10.5px;
+  font-size:11px;
   font-weight:300;
-  color:rgba(201,168,76,.5);
+  color:rgba(245,208,106,.75);
   letter-spacing:.12em;
   text-transform:uppercase;
   transition:opacity .3s;
@@ -262,14 +263,14 @@ html,body{
 .letter-paper{
   position:relative;
   width:100%;
-  background:rgba(240,234,216,.035);
-  border:1px solid rgba(201,168,76,.25);
+  background:rgba(240,234,216,.04);
+  border:1px solid rgba(201,168,76,.3);
   border-radius:4px 4px 4px 4px;
   padding:clamp(28px,7vw,52px) clamp(24px,6vw,48px);
   box-shadow:
-    0 0 80px rgba(201,168,76,.05),
+    0 0 80px rgba(201,168,76,.07),
     0 40px 80px rgba(0,0,0,.5),
-    inset 0 0 40px rgba(201,168,76,.02);
+    inset 0 0 40px rgba(201,168,76,.03);
 }
 
 /* Corner ornaments */
@@ -277,7 +278,7 @@ html,body{
   content:'';
   position:absolute;
   width:28px;height:28px;
-  border-color:rgba(201,168,76,.4);
+  border-color:rgba(201,168,76,.5);
   border-style:solid;
 }
 .letter-paper::before{top:12px;left:12px;border-width:1px 0 0 1px}
@@ -286,7 +287,7 @@ html,body{
 .letter-corner-tr,.letter-corner-bl{
   position:absolute;
   width:28px;height:28px;
-  border-color:rgba(201,168,76,.4);
+  border-color:rgba(201,168,76,.5);
   border-style:solid;
 }
 .letter-corner-tr{top:12px;right:12px;border-width:1px 1px 0 0}
@@ -297,23 +298,23 @@ html,body{
   display:flex;align-items:center;gap:12px;
   margin-bottom:32px;
 }
-.letter-rule-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.letter-rule-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent)}
 
 /* Letter text */
 .letter-salutation{
   font-family:'Cormorant SC',serif;
   font-size:clamp(13px,3vw,16px);
-  font-weight:300;
-  color:rgba(201,168,76,.7);
+  font-weight:400;
+  color:rgba(245,208,106,.9);
   letter-spacing:.18em;
   margin-bottom:24px;
   text-transform:uppercase;
 }
 #letter-body{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(16px,4vw,19px);
-  line-height:1.9;
-  color:var(--ivory);
+  font-size:clamp(17px,4vw,20px);
+  line-height:1.95;
+  color:#fff;
   min-height:100px;
 }
 #letter-body .line{
@@ -324,7 +325,7 @@ html,body{
   margin-bottom:2px;
 }
 #letter-body .line.revealed{opacity:1;transform:translateY(0)}
-#letter-body .line.italic{font-style:italic;color:rgba(240,234,216,.75)}
+#letter-body .line.italic{font-style:italic;color:rgba(245,208,106,.95)}
 
 .letter-sign{
   margin-top:36px;
@@ -337,7 +338,7 @@ html,body{
   font-family:'DM Sans',sans-serif;
   font-size:11px;
   font-weight:300;
-  color:rgba(201,168,76,.55);
+  color:rgba(245,208,106,.8);
   letter-spacing:.22em;
   text-transform:uppercase;
 }
@@ -346,7 +347,7 @@ html,body{
   font-style:italic;
   font-size:clamp(20px,5vw,28px);
   color:var(--glow);
-  text-shadow:0 0 20px rgba(245,208,106,.3);
+  text-shadow:0 0 20px rgba(245,208,106,.4);
 }
 
 /* Cursor blink */
@@ -448,12 +449,10 @@ html,body{
       <div class="key-card" id="key-1" data-key="1">
         <div class="key-icon-wrap">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- laugh / smile key icon -->
             <circle cx="19" cy="19" r="16" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
             <path d="M13 20 Q19 28 25 20" stroke="rgba(201,168,76,.9)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
             <circle cx="14" cy="16" r="1.8" fill="rgba(201,168,76,.85)"/>
             <circle cx="24" cy="16" r="1.8" fill="rgba(201,168,76,.85)"/>
-            <!-- key stem -->
             <line x1="19" y1="35" x2="19" y2="30" stroke="rgba(201,168,76,.5)" stroke-width="1" stroke-dasharray="1 2"/>
           </svg>
         </div>
@@ -468,7 +467,6 @@ html,body{
       <div class="key-card" id="key-2" data-key="2">
         <div class="key-icon-wrap">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- support / anchor icon -->
             <circle cx="19" cy="10" r="4" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
             <line x1="19" y1="14" x2="19" y2="28" stroke="rgba(201,168,76,.7)" stroke-width="1.2"/>
             <path d="M10 22 Q10 32 19 32 Q28 32 28 22" stroke="rgba(201,168,76,.7)" stroke-width="1.2" fill="none"/>
@@ -486,7 +484,6 @@ html,body{
       <div class="key-card" id="key-3" data-key="3">
         <div class="key-icon-wrap">
           <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- future / star-compass icon -->
             <circle cx="19" cy="19" r="15" stroke="rgba(201,168,76,.45)" stroke-width="1" stroke-dasharray="3 3"/>
             <path d="M19 7 L21 16 L30 19 L21 22 L19 31 L17 22 L8 19 L17 16 Z"
                   fill="rgba(201,168,76,.15)" stroke="rgba(201,168,76,.85)" stroke-width="1.1" stroke-linejoin="round"/>
@@ -513,7 +510,7 @@ html,body{
         <div class="letter-rule-line"></div>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9 2 L10.3 7 L15 9 L10.3 11 L9 16 L7.7 11 L3 9 L7.7 7 Z"
-                fill="none" stroke="rgba(201,168,76,.6)" stroke-width="1" stroke-linejoin="round"/>
+                fill="none" stroke="rgba(201,168,76,.7)" stroke-width="1" stroke-linejoin="round"/>
         </svg>
         <div class="letter-rule-line"></div>
       </div>
@@ -698,7 +695,6 @@ function startTypewriter(){
   const sign = document.getElementById('letter-sign');
   body.innerHTML = '';
 
-  // Create all line elements, hidden
   const lineEls = letterLines.map((l,i)=>{
     const span = document.createElement('span');
     span.className = 'line' + (l.italic?' italic':'');
@@ -707,24 +703,20 @@ function startTypewriter(){
     return span;
   });
 
-  // Add cursor
   const cursor = document.createElement('span');
   cursor.className = 'cursor';
   body.appendChild(cursor);
 
-  // Reveal lines one by one
   let i = 0;
-  const delay = 520; // ms per line
+  const delay = 520;
 
   function revealNext(){
     if(i >= lineEls.length){
-      // Done — show signature, start hearts
       cursor.remove();
       sign.classList.add('revealed');
       setTimeout(startHearts, 800);
       return;
     }
-    // Move cursor after this line
     lineEls[i].after(cursor);
     lineEls[i].classList.add('revealed');
     i++;
