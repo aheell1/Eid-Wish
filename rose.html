@@ -37,7 +37,7 @@
 
     h1 {
       position: fixed;
-      top: 35px;
+      top: clamp(20px, 4vh, 45px);
       left: 50%;
       transform: translateX(-50%);
       font-family: "Great Vibes", cursive;
@@ -52,7 +52,7 @@
     .garden {
       position: absolute;
       left: 50%;
-      bottom: 82px;
+      bottom: clamp(70px, 10vh, 100px);
       width: 430px;
       height: 420px;
       transform: translateX(-50%);
@@ -247,7 +247,7 @@
 
     .next-btn {
       position: fixed;
-      bottom: 32px;
+      bottom: clamp(18px, 3vh, 36px);
       left: 50%;
       transform: translateX(-50%);
       padding: 8px 22px;
@@ -277,15 +277,8 @@
     }
 
     @keyframes coreShow { to { transform: translate(-50%, -50%) scale(1); } }
-
-    @keyframes leafLeft {
-      to { opacity: 1; transform: rotate(-32deg) scale(1); }
-    }
-
-    @keyframes leafRight {
-      to { opacity: 1; transform: rotate(210deg) scale(1); }
-    }
-
+    @keyframes leafLeft { to { opacity: 1; transform: rotate(-32deg) scale(1); } }
+    @keyframes leafRight { to { opacity: 1; transform: rotate(210deg) scale(1); } }
     @keyframes grassGrow { to { height: 125px; } }
 
     @keyframes sway {
@@ -300,21 +293,28 @@
 
     @media (max-width: 600px) {
       h1 {
-        top: 42px;
-        font-size: clamp(3rem, 15vw, 4.2rem);
+        top: clamp(16px, 3vh, 36px);
+        font-size: clamp(2.8rem, 14vw, 4rem);
       }
 
       .garden {
         width: 430px;
         height: 390px;
-        bottom: 105px;
-        transform: translateX(-50%) scale(.72);
+        bottom: clamp(80px, 13vh, 120px);
+        transform: translateX(-50%) scale(.68);
+        transform-origin: bottom center;
       }
 
       .next-btn {
-        bottom: 70px;
+        bottom: clamp(16px, 3vh, 32px);
         font-size: .85rem;
         padding: 7px 17px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .garden {
+        bottom: clamp(90px, 10vh, 110px);
       }
     }
   </style>
@@ -395,7 +395,7 @@
     <span class="grass g6"></span>
   </div>
 
- <a href="music.html" class="next-btn">Next ➜</a>
+  <a href="music.html" class="next-btn">Next ➜</a>
 
   <script>
     for (let i = 0; i < 34; i++) {
