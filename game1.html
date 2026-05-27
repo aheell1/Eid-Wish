@@ -19,10 +19,9 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 
-/* ── TITLE ── */
 h1{
-  position:fixed;top:26px;left:36px;
-  font-family:"Great Vibes",cursive;font-size:clamp(2.4rem,6vw,4rem);
+  position:fixed;top:clamp(16px,3vh,28px);left:clamp(16px,3vw,36px);
+  font-family:"Great Vibes",cursive;font-size:clamp(2.2rem,6vw,4rem);
   color:var(--gold);font-weight:400;
   text-shadow:0 0 28px rgba(246,196,83,.85),0 0 60px rgba(246,196,83,.3);
   z-index:50;white-space:nowrap;
@@ -33,18 +32,16 @@ h1{
   to{text-shadow:0 0 40px rgba(246,196,83,1),0 0 80px rgba(246,196,83,.45);}
 }
 
-/* ── STARS ── */
 .star{position:fixed;border-radius:50%;pointer-events:none;}
 @keyframes twinkle{
   0%,100%{opacity:.15;transform:scale(.5);}
   50%{opacity:.9;transform:scale(1.4);}
 }
 
-/* ── MAP CARD ── */
 .map-card{
   position:relative;
   width:min(86vw,560px);
-  height:min(78vh,480px);
+  height:min(72vh,480px);
   background:radial-gradient(ellipse at 30% 30%,#0f2a50 0%,#081428 60%,#040e1e 100%);
   border:1.5px solid var(--map-border);
   border-radius:18px;
@@ -54,9 +51,9 @@ h1{
     inset 0 0 60px rgba(11,16,38,.8);
   overflow:hidden;
   z-index:20;
+  margin-top:clamp(60px,9vh,90px);
 }
 
-/* subtle terrain lines */
 .map-card::before{
   content:'';position:absolute;inset:0;
   background:
@@ -65,13 +62,11 @@ h1{
   border-radius:18px;pointer-events:none;z-index:0;
 }
 
-/* ── MAP SVG ── */
 .map-svg{
   position:absolute;inset:0;width:100%;height:100%;
   z-index:1;pointer-events:none;
 }
 
-/* ── CITY PINS ── */
 .pin{
   position:absolute;z-index:4;display:flex;flex-direction:column;align-items:center;gap:3px;
   pointer-events:none;
@@ -104,12 +99,9 @@ h1{
   padding:2px 7px;border-radius:8px;border:1px solid rgba(246,196,83,.25);
 }
 
-/* Islamabad — top-left area */
 .pin-isb{top:14%;left:12%;}
-/* Pahalgam — bottom-right area */
 .pin-phl{bottom:14%;right:12%;}
 
-/* ── FLIGHT PATH ── */
 .path-svg{
   position:absolute;inset:0;width:100%;height:100%;
   z-index:2;pointer-events:none;overflow:visible;
@@ -126,7 +118,6 @@ h1{
   transition:none;
 }
 
-/* ── HELICOPTER ── */
 .heli-wrap{
   position:absolute;z-index:6;
   width:52px;height:52px;
@@ -143,11 +134,8 @@ h1{
   from{transform:translateY(0px) rotate(-2deg);}
   to{transform:translateY(-4px) rotate(2deg);}
 }
-/* rotor spin via JS class */
 .rotor{transform-origin:50% 50%;animation:rotorSpin .18s linear infinite;}
 @keyframes rotorSpin{to{transform:rotate(360deg);}}
-
-/* little exhaust puffs */
 .puff{
   position:absolute;bottom:-6px;left:50%;
   width:6px;height:6px;border-radius:50%;
@@ -160,13 +148,13 @@ h1{
   100%{opacity:0;transform:translateX(-50%) translateY(14px) scale(2.2);}
 }
 
-/* ── POPUP ── */
 .popup-overlay{
   position:fixed;inset:0;z-index:90;
   display:flex;align-items:center;justify-content:center;
   background:rgba(4,10,28,.65);backdrop-filter:blur(6px);
   opacity:0;pointer-events:none;
   transition:opacity .5s ease;
+  padding:0 clamp(16px,5vw,40px);
 }
 .popup-overlay.show{opacity:1;pointer-events:all;}
 .popup-box{
@@ -174,7 +162,7 @@ h1{
   background:radial-gradient(ellipse at 50% 20%,#1a2d52,#0b1630 70%);
   border:1.5px solid rgba(246,196,83,.55);
   border-radius:20px;
-  padding:36px 44px 28px;
+  padding:clamp(24px,4vh,36px) clamp(24px,5vw,44px) clamp(18px,3vh,28px);
   text-align:center;
   box-shadow:0 0 50px rgba(246,196,83,.25),0 0 100px rgba(246,196,83,.1);
   transform:scale(.7);
@@ -202,7 +190,6 @@ h1{
 }
 .popup-close:hover{background:rgba(246,196,83,.22);box-shadow:0 0 18px rgba(246,196,83,.45);}
 
-/* confetti particles */
 .conf{
   position:fixed;width:7px;height:7px;border-radius:2px;
   pointer-events:none;z-index:92;
@@ -213,28 +200,25 @@ h1{
   100%{opacity:0;transform:translateY(100vh) rotate(720deg);}
 }
 
-/* ── BOTTOM FADE ── */
 .bottom-fade{
   position:fixed;bottom:0;left:0;right:0;height:100px;
   background:linear-gradient(180deg,transparent,rgba(3,7,18,.92));
   z-index:5;pointer-events:none;
 }
 
-/* ── CONTINUE BTN ── */
 .next-btn{
-  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:clamp(16px,3vh,36px);left:50%;transform:translateX(-50%);
   padding:8px 22px;border:1.5px solid var(--gold);border-radius:18px;
   background:rgba(246,196,83,.12);color:var(--gold);font-family:"Amiri",serif;font-size:.95rem;
   text-decoration:none;box-shadow:0 0 13px rgba(246,196,83,.35);
-  z-index:60;transition:all .3s;white-space:nowrap;
+  z-index:60;white-space:nowrap;
   opacity:0;pointer-events:none;
   transition:opacity .5s ease, background .3s, box-shadow .3s;
 }
 .next-btn.show{opacity:1;pointer-events:all;}
 .next-btn:hover{background:rgba(246,196,83,.22);box-shadow:0 0 26px rgba(246,196,83,.55);transform:translateX(-50%) scale(1.05);}
 
-/* ── CRESCENT MOON ── */
-.moon{position:fixed;top:72px;right:130px;z-index:100;width:44px;height:44px;pointer-events:none;}
+.moon{position:fixed;top:clamp(60px,9vh,78px);right:clamp(110px,14vw,138px);z-index:100;width:44px;height:44px;pointer-events:none;}
 .moon svg{width:100%;height:100%;
   filter:drop-shadow(0 0 12px rgba(200,210,255,.7));
   animation:moonGlow 4s ease-in-out infinite alternate;}
@@ -242,7 +226,6 @@ h1{
   from{filter:drop-shadow(0 0 10px rgba(200,210,255,.6));}
   to{filter:drop-shadow(0 0 22px rgba(220,230,255,.9));}}
 
-/* CLOUDS — same #D1D5D8 style, stay at top */
 .clouds{position:fixed;top:0;left:0;right:0;height:160px;z-index:8;overflow:hidden;pointer-events:none;}
 .cloud{position:absolute;}
 .cloud-body{position:relative;display:inline-block;}
@@ -263,15 +246,29 @@ h1{
 @keyframes cld2{from{transform:translateX(calc(100vw + 150px));}to{transform:translateX(-150px);}}
 @keyframes cld3{from{transform:translateX(30vw);}to{transform:translateX(calc(100vw + 180px));}}
 
-/* MAP DECORATION: mountain silhouettes inside map */
 .mountains{position:absolute;bottom:0;left:0;right:0;z-index:1;pointer-events:none;opacity:.18;}
+
+@media(max-width:480px){
+  .map-card{
+    width:min(92vw,560px);
+    height:min(62vh,480px);
+    margin-top:clamp(55px,10vh,80px);
+  }
+  h1{font-size:clamp(2rem,12vw,3rem);}
+  .moon{top:clamp(52px,9vh,70px);right:clamp(90px,22vw,110px);width:36px;height:36px;}
+  .next-btn{bottom:clamp(14px,3vh,24px);font-size:.85rem;padding:7px 17px;}
+}
+
+@media(min-width:1200px){
+  .map-card{margin-top:clamp(80px,9vh,100px);}
+  .next-btn{bottom:clamp(28px,3.5vh,44px);}
+}
 </style>
 </head>
 <body>
 
 <h1>The Journey</h1>
 
-<!-- Moon -->
 <div class="moon">
   <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -285,33 +282,26 @@ h1{
   </svg>
 </div>
 
-<!-- Clouds -->
 <div class="clouds">
   <div class="cloud c1"><div class="cloud-body"></div></div>
   <div class="cloud c2"><div class="cloud-body"></div></div>
   <div class="cloud c3"><div class="cloud-body"></div></div>
 </div>
 
-<!-- MAP CARD -->
 <div class="map-card" id="mapCard">
 
-  <!-- terrain mountain SVG inside map -->
   <svg class="mountains" viewBox="0 0 560 480" preserveAspectRatio="none">
     <polygon points="0,480 80,310 140,390 210,260 290,370 360,220 430,320 500,200 560,300 560,480" fill="#4a7fa5"/>
     <polygon points="0,480 60,360 130,420 200,300 280,400 350,280 420,360 490,240 560,340 560,480" fill="#2a4f6e"/>
   </svg>
 
-  <!-- dashed path SVG (static reference path) -->
   <svg class="path-svg" viewBox="0 0 560 480" preserveAspectRatio="none">
-    <!-- dashed background path: Islamabad(~17%,17%) to Pahalgam(~83%,80%) -->
     <path class="flight-path" id="staticPath"
       d="M95,82 C180,60 260,120 310,200 C360,280 420,340 465,386"/>
-    <!-- animated gold trail -->
     <path class="flight-trail" id="trailPath"
       d="M95,82 C180,60 260,120 310,200 C360,280 420,340 465,386"/>
   </svg>
 
-  <!-- City Pins -->
   <div class="pin pin-isb">
     <div class="pin-dot"><div class="pin-ring"></div></div>
     <div class="pin-label">📍 Islamabad</div>
@@ -321,40 +311,30 @@ h1{
     <div class="pin-label">Pahalgam 📍</div>
   </div>
 
-  <!-- Helicopter -->
   <div class="heli-wrap" id="heli">
     <svg class="heli-svg" viewBox="0 0 80 70" xmlns="http://www.w3.org/2000/svg">
-      <!-- Main rotor -->
       <g class="rotor" transform="translate(40,14)">
         <rect x="-28" y="-2.5" width="56" height="5" rx="2.5" fill="#F6C453" opacity=".95"/>
         <rect x="-2.5" y="-28" width="5" height="56" rx="2.5" fill="#F6C453" opacity=".7"/>
       </g>
-      <!-- Rotor hub -->
       <circle cx="40" cy="14" r="5" fill="#ffd980"/>
-      <!-- Body -->
       <ellipse cx="38" cy="38" rx="22" ry="14" fill="#1a3a6e" stroke="#F6C453" stroke-width="1.2"/>
-      <!-- Cockpit window -->
       <ellipse cx="30" cy="35" rx="9" ry="7" fill="#a8d4f5" opacity=".85" stroke="#F6C453" stroke-width=".8"/>
       <ellipse cx="29" cy="34" rx="5" ry="4" fill="#c8e8ff" opacity=".5"/>
-      <!-- Tail boom -->
       <rect x="56" y="36" width="16" height="5" rx="2" fill="#1a3a6e" stroke="#F6C453" stroke-width=".8"/>
-      <!-- Tail rotor -->
       <g transform="translate(72,38)">
         <rect x="-2" y="-10" width="4" height="20" rx="2" fill="#F6C453" opacity=".9"/>
       </g>
-      <!-- Skids -->
       <line x1="22" y1="51" x2="54" y2="51" stroke="#F6C453" stroke-width="2.2" stroke-linecap="round"/>
       <line x1="26" y1="48" x2="26" y2="51" stroke="#F6C453" stroke-width="1.8"/>
       <line x1="50" y1="48" x2="50" y2="51" stroke="#F6C453" stroke-width="1.8"/>
-      <!-- Gold accent stripe -->
       <path d="M20,38 Q38,30 56,38" stroke="#F6C453" stroke-width="1" fill="none" opacity=".6"/>
     </svg>
     <div class="puff"></div>
   </div>
 
-</div><!-- /map-card -->
+</div>
 
-<!-- Popup -->
 <div class="popup-overlay" id="popup">
   <div class="popup-box">
     <span class="popup-emoji">🥩</span>
@@ -368,7 +348,6 @@ h1{
 <a class="next-btn" id="nextBtn" href="game2.html">Continue &#10148;</a>
 
 <script>
-/* ── STARS ── */
 const sc = ['#ffffff','#fffbe0','#F6C453','#c8e0ff'];
 for(let i=0;i<90;i++){
   const s=document.createElement('div');s.className='star';
@@ -377,26 +356,20 @@ for(let i=0;i<90;i++){
   document.body.appendChild(s);
 }
 
-/* ── HELICOPTER PATH ANIMATION ── */
-// Path from Islamabad (~17%,17%) to Pahalgam (~83%,80%) as percentage of card
-// We'll use a cubic bezier and animate position along it
-
 const card = document.getElementById('mapCard');
 const heli  = document.getElementById('heli');
 const trail = document.getElementById('trailPath');
 
-// Path control points (% of card dimensions)
 const pathPts = {
-  x1: 17, y1: 17,   // start: Islamabad
-  cx1:32, cy1:12,   // ctrl1
-  cx2:55, cy2:42,   // ctrl2
-  x2: 83, y2: 80    // end: Pahalgam
+  x1: 17, y1: 17,
+  cx1:32, cy1:12,
+  cx2:55, cy2:42,
+  x2: 83, y2: 80
 };
 
 let progress = 0;
-let animating = false;
 let startTime = null;
-const DURATION = 6000; // 6 seconds flight
+const DURATION = 6000;
 
 function cubicBezier(t, p0, p1, p2, p3){
   const mt = 1 - t;
@@ -421,11 +394,9 @@ function animateHeli(ts){
   heli.style.left = x + 'px';
   heli.style.top  = y + 'px';
 
-  // Animate gold trail stroke-dashoffset
-  const totalLen = 500; // approximate path length
+  const totalLen = 500;
   trail.style.strokeDashoffset = totalLen * (1 - progress);
 
-  // Tilt heli slightly in direction of travel
   if(progress < 0.98){
     const dx = cubicBezier(Math.min(progress+.01,1),
       pathPts.x1/100*cw,pathPts.cx1/100*cw,pathPts.cx2/100*cw,pathPts.x2/100*cw) - x;
@@ -438,12 +409,10 @@ function animateHeli(ts){
   if(progress < 1){
     requestAnimationFrame(animateHeli);
   } else {
-    // Arrived!
     setTimeout(showPopup, 400);
   }
 }
 
-// Trail path length calibration
 function calibrateTrail(){
   const pathEl = document.getElementById('trailPath');
   try{
@@ -461,10 +430,8 @@ function startFlight(){
   requestAnimationFrame(animateHeli);
 }
 
-// Start after small delay
 setTimeout(startFlight, 800);
 
-/* ── POPUP ── */
 function showPopup(){
   document.getElementById('popup').classList.add('show');
   spawnConfetti();
@@ -475,7 +442,6 @@ function closePopup(){
   document.getElementById('nextBtn').classList.add('show');
 }
 
-/* ── CONFETTI ── */
 const confColors = ['#F6C453','#ffd980','#ff9ebc','#a8f0c6','#c8e0ff','#fff'];
 function spawnConfetti(){
   for(let i=0;i<55;i++){
