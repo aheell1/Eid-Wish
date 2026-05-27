@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1026;--bg2:#111936;--gold:#F6C453;--gold2:#ffd980;
+  --map-bg:#0d1f3c;--map-border:rgba(246,196,83,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;width:100%;overflow:hidden;
+  background:radial-gradient(circle at 50% 75%,rgba(246,196,83,.10),transparent 26%),
+  radial-gradient(circle at center,#111936 0%,#0B1026 55%,#030712 100%);
+  font-family:sans-serif;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── TITLE ── */
+h1{
+  position:fixed;top:26px;left:36px;
+  font-family:"Great Vibes",cursive;font-size:clamp(2.4rem,6vw,4rem);
+  color:var(--gold);font-weight:400;
+  text-shadow:0 0 28px rgba(246,196,83,.85),0 0 60px rgba(246,196,83,.3);
+  z-index:50;white-space:nowrap;
+  animation:titleGlow 3s ease-in-out infinite alternate;
+}
+@keyframes titleGlow{
+  from{text-shadow:0 0 20px rgba(246,196,83,.7),0 0 45px rgba(246,196,83,.25);}
+  to{text-shadow:0 0 40px rgba(246,196,83,1),0 0 80px rgba(246,196,83,.45);}
+}
+
+/* ── STARS ── */
+.star{position:fixed;border-radius:50%;pointer-events:none;}
+@keyframes twinkle{
+  0%,100%{opacity:.15;transform:scale(.5);}
+  50%{opacity:.9;transform:scale(1.4);}
+}
+
+/* ── MAP CARD ── */
+.map-card{
+  position:relative;
+  width:min(86vw,560px);
+  height:min(78vh,480px);
+  background:radial-gradient(ellipse at 30% 30%,#0f2a50 0%,#081428 60%,#040e1e 100%);
+  border:1.5px solid var(--map-border);
+  border-radius:18px;
+  box-shadow:
+    0 0 40px rgba(246,196,83,.12),
+    0 0 80px rgba(246,196,83,.06),
+    inset 0 0 60px rgba(11,16,38,.8);
+  overflow:hidden;
+  z-index:20;
+}
+
+/* subtle terrain lines */
+.map-card::before{
+  content:'';position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 38px,rgba(246,196,83,.025) 38px,rgba(246,196,83,.025) 39px),
+    repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(246,196,83,.025) 38px,rgba(246,196,83,.025) 39px);
+  border-radius:18px;pointer-events:none;z-index:0;
+}
+
+/* ── MAP SVG ── */
+.map-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:1;pointer-events:none;
+}
+
+/* ── CITY PINS ── */
+.pin{
+  position:absolute;z-index:4;display:flex;flex-direction:column;align-items:center;gap:3px;
+  pointer-events:none;
+}
+.pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--gold);
+  background:radial-gradient(circle,#fff8e0,var(--gold));
+  box-shadow:0 0 12px var(--gold),0 0 24px rgba(246,196,83,.5);
+  animation:pinPulse 2s ease-in-out infinite;
+}
+@keyframes pinPulse{
+  0%,100%{box-shadow:0 0 10px var(--gold),0 0 22px rgba(246,196,83,.4);}
+  50%{box-shadow:0 0 22px var(--gold),0 0 44px rgba(246,196,83,.7);}
+}
+.pin-ring{
+  position:absolute;width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(246,196,83,.45);
+  top:-7px;left:-7px;
+  animation:ringExpand 2s ease-out infinite;
+}
+@keyframes ringExpand{
+  0%{transform:scale(.6);opacity:.9;}
+  100%{transform:scale(1.8);opacity:0;}
+}
+.pin-label{
+  font-family:"Amiri",serif;font-size:.72rem;letter-spacing:.08em;
+  color:var(--gold);text-shadow:0 0 8px rgba(246,196,83,.8);
+  white-space:nowrap;background:rgba(4,14,30,.7);
+  padding:2px 7px;border-radius:8px;border:1px solid rgba(246,196,83,.25);
+}
+
+/* Islamabad — top-left area */
+.pin-isb{top:14%;left:12%;}
+/* Pahalgam — bottom-right area */
+.pin-phl{bottom:14%;right:12%;}
+
+/* ── FLIGHT PATH ── */
+.path-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:2;pointer-events:none;overflow:visible;
+}
+.flight-path{
+  fill:none;stroke:rgba(246,196,83,.22);
+  stroke-width:1.6;stroke-dasharray:6 5;
+}
+.flight-trail{
+  fill:none;stroke:rgba(246,196,83,.7);
+  stroke-width:2.2;stroke-linecap:round;
+  stroke-dasharray:1000;stroke-dashoffset:1000;
+  filter:drop-shadow(0 0 4px rgba(246,196,83,.8));
+  transition:none;
+}
+
+/* ── HELICOPTER ── */
+.heli-wrap{
+  position:absolute;z-index:6;
+  width:52px;height:52px;
+  top:14%;left:12%;
+  transform:translate(-50%,-70%);
+  pointer-events:none;
+}
+.heli-svg{
+  width:100%;height:100%;
+  filter:drop-shadow(0 0 8px rgba(246,196,83,.9)) drop-shadow(0 2px 6px rgba(0,0,0,.8));
+  animation:heliHover 0.7s ease-in-out infinite alternate;
+}
+@keyframes heliHover{
+  from{transform:translateY(0px) rotate(-2deg);}
+  to{transform:translateY(-4px) rotate(2deg);}
+}
+/* rotor spin via JS class */
+.rotor{transform-origin:50% 50%;animation:rotorSpin .18s linear infinite;}
+@keyframes rotorSpin{to{transform:rotate(360deg);}}
+
+/* little exhaust puffs */
+.puff{
+  position:absolute;bottom:-6px;left:50%;
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(246,196,83,.55);
+  transform:translateX(-50%);
+  animation:puffAnim .8s ease-out infinite;
+}
+@keyframes puffAnim{
+  0%{opacity:.8;transform:translateX(-50%) scale(1);}
+  100%{opacity:0;transform:translateX(-50%) translateY(14px) scale(2.2);}
+}
+
+/* ── POPUP ── */
+.popup-overlay{
+  position:fixed;inset:0;z-index:90;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(4,10,28,.65);backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease;
+}
+.popup-overlay.show{opacity:1;pointer-events:all;}
+.popup-box{
+  position:relative;
+  background:radial-gradient(ellipse at 50% 20%,#1a2d52,#0b1630 70%);
+  border:1.5px solid rgba(246,196,83,.55);
+  border-radius:20px;
+  padding:36px 44px 28px;
+  text-align:center;
+  box-shadow:0 0 50px rgba(246,196,83,.25),0 0 100px rgba(246,196,83,.1);
+  transform:scale(.7);
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+  max-width:340px;width:88vw;
+}
+.popup-overlay.show .popup-box{transform:scale(1);}
+.popup-emoji{font-size:3rem;display:block;margin-bottom:10px;animation:bounceEmoji 1s ease-in-out infinite alternate;}
+@keyframes bounceEmoji{from{transform:scale(1) rotate(-5deg);}to{transform:scale(1.15) rotate(5deg);}}
+.popup-title{
+  font-family:"Great Vibes",cursive;font-size:2rem;
+  color:var(--gold);text-shadow:0 0 20px rgba(246,196,83,.8);
+  margin-bottom:6px;
+}
+.popup-sub{
+  font-family:"Amiri",serif;font-size:1.05rem;
+  color:rgba(246,196,83,.75);letter-spacing:.04em;margin-bottom:22px;
+}
+.popup-close{
+  display:inline-block;padding:7px 22px;
+  border:1.5px solid var(--gold);border-radius:16px;
+  background:rgba(246,196,83,.12);color:var(--gold);
+  font-family:"Amiri",serif;font-size:.9rem;cursor:pointer;
+  transition:all .25s;
+}
+.popup-close:hover{background:rgba(246,196,83,.22);box-shadow:0 0 18px rgba(246,196,83,.45);}
+
+/* confetti particles */
+.conf{
+  position:fixed;width:7px;height:7px;border-radius:2px;
+  pointer-events:none;z-index:92;
+  animation:confFall linear forwards;
+}
+@keyframes confFall{
+  0%{opacity:1;transform:translateY(-20px) rotate(0deg);}
+  100%{opacity:0;transform:translateY(100vh) rotate(720deg);}
+}
+
+/* ── BOTTOM FADE ── */
+.bottom-fade{
+  position:fixed;bottom:0;left:0;right:0;height:100px;
+  background:linear-gradient(180deg,transparent,rgba(3,7,18,.92));
+  z-index:5;pointer-events:none;
+}
+
+/* ── CONTINUE BTN ── */
+.next-btn{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  padding:8px 22px;border:1.5px solid var(--gold);border-radius:18px;
+  background:rgba(246,196,83,.12);color:var(--gold);font-family:"Amiri",serif;font-size:.95rem;
+  text-decoration:none;box-shadow:0 0 13px rgba(246,196,83,.35);
+  z-index:60;transition:all .3s;white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease, background .3s, box-shadow .3s;
+}
+.next-btn.show{opacity:1;pointer-events:all;}
+.next-btn:hover{background:rgba(246,196,83,.22);box-shadow:0 0 26px rgba(246,196,83,.55);transform:translateX(-50%) scale(1.05);}
+
+/* ── CRESCENT MOON ── */
+.moon{position:fixed;top:72px;right:130px;z-index:100;width:44px;height:44px;pointer-events:none;}
+.moon svg{width:100%;height:100%;
+  filter:drop-shadow(0 0 12px rgba(200,210,255,.7));
+  animation:moonGlow 4s ease-in-out infinite alternate;}
+@keyframes moonGlow{
+  from{filter:drop-shadow(0 0 10px rgba(200,210,255,.6));}
+  to{filter:drop-shadow(0 0 22px rgba(220,230,255,.9));}}
+
+/* CLOUDS — same #D1D5D8 style, stay at top */
+.clouds{position:fixed;top:0;left:0;right:0;height:160px;z-index:8;overflow:hidden;pointer-events:none;}
+.cloud{position:absolute;}
+.cloud-body{position:relative;display:inline-block;}
+.cloud-body::before,.cloud-body::after{content:'';position:absolute;background:inherit;border-radius:50%;}
+.c1{top:18px;animation:cld1 62s linear infinite;opacity:.6;filter:blur(4px);}
+.c1 .cloud-body{width:160px;height:44px;background:radial-gradient(ellipse at 50% 65%,#D1D5D8,#bdc1c4);border-radius:44px;}
+.c1 .cloud-body::before{width:80px;height:66px;top:-30px;left:22px;background:radial-gradient(ellipse at 50% 70%,#D1D5D8,#b8bbbe);}
+.c1 .cloud-body::after{width:60px;height:48px;top:-18px;left:86px;background:radial-gradient(ellipse at 50% 65%,#c8ccce,#b8bbbe);}
+.c2{top:38px;animation:cld2 44s linear infinite;opacity:.5;filter:blur(5px);}
+.c2 .cloud-body{width:120px;height:34px;background:radial-gradient(ellipse at 50% 65%,#D1D5D8,#c0c4c7);border-radius:34px;}
+.c2 .cloud-body::before{width:60px;height:50px;top:-22px;left:18px;background:radial-gradient(ellipse at 50% 70%,#D1D5D8,#bdc1c4);}
+.c2 .cloud-body::after{width:46px;height:36px;top:-14px;left:62px;background:radial-gradient(ellipse at 50% 65%,#c8ccce,#b8bbbe);}
+.c3{top:12px;animation:cld3 50s linear infinite;opacity:.55;filter:blur(4px);}
+.c3 .cloud-body{width:140px;height:40px;background:radial-gradient(ellipse at 50% 65%,#D1D5D8,#bdc1c4);border-radius:40px;}
+.c3 .cloud-body::before{width:70px;height:60px;top:-28px;left:20px;background:radial-gradient(ellipse at 50% 70%,#D1D5D8,#bdc1c4);}
+.c3 .cloud-body::after{width:54px;height:42px;top:-16px;left:74px;background:radial-gradient(ellipse at 50% 65%,#c8ccce,#b8bbbe);}
+@keyframes cld1{from{transform:translateX(-200px);}to{transform:translateX(calc(100vw + 200px));}}
+@keyframes cld2{from{transform:translateX(calc(100vw + 150px));}to{transform:translateX(-150px);}}
+@keyframes cld3{from{transform:translateX(30vw);}to{transform:translateX(calc(100vw + 180px));}}
+
+/* MAP DECORATION: mountain silhouettes inside map */
+.mountains{position:absolute;bottom:0;left:0;right:0;z-index:1;pointer-events:none;opacity:.18;}
+</style>
+</head>
+<body>
+
+<h1>The Journey</h1>
+
+<!-- Moon -->
+<div class="moon">
+  <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <mask id="cm"><circle cx="26" cy="26" r="22" fill="white"/><circle cx="36" cy="20" r="18" fill="black"/></mask>
+      <radialGradient id="mg" cx="35%" cy="30%" r="65%">
+        <stop offset="0%" stop-color="#eef3ff"/><stop offset="100%" stop-color="#8899cc"/>
+      </radialGradient>
+    </defs>
+    <circle cx="26" cy="26" r="22" fill="#cdd8f0" mask="url(#cm)"/>
+    <circle cx="26" cy="26" r="22" fill="url(#mg)" mask="url(#cm)" opacity=".5"/>
+  </svg>
+</div>
+
+<!-- Clouds -->
+<div class="clouds">
+  <div class="cloud c1"><div class="cloud-body"></div></div>
+  <div class="cloud c2"><div class="cloud-body"></div></div>
+  <div class="cloud c3"><div class="cloud-body"></div></div>
+</div>
+
+<!-- MAP CARD -->
+<div class="map-card" id="mapCard">
+
+  <!-- terrain mountain SVG inside map -->
+  <svg class="mountains" viewBox="0 0 560 480" preserveAspectRatio="none">
+    <polygon points="0,480 80,310 140,390 210,260 290,370 360,220 430,320 500,200 560,300 560,480" fill="#4a7fa5"/>
+    <polygon points="0,480 60,360 130,420 200,300 280,400 350,280 420,360 490,240 560,340 560,480" fill="#2a4f6e"/>
+  </svg>
+
+  <!-- dashed path SVG (static reference path) -->
+  <svg class="path-svg" viewBox="0 0 560 480" preserveAspectRatio="none">
+    <!-- dashed background path: Islamabad(~17%,17%) to Pahalgam(~83%,80%) -->
+    <path class="flight-path" id="staticPath"
+      d="M95,82 C180,60 260,120 310,200 C360,280 420,340 465,386"/>
+    <!-- animated gold trail -->
+    <path class="flight-trail" id="trailPath"
+      d="M95,82 C180,60 260,120 310,200 C360,280 420,340 465,386"/>
+  </svg>
+
+  <!-- City Pins -->
+  <div class="pin pin-isb">
+    <div class="pin-dot"><div class="pin-ring"></div></div>
+    <div class="pin-label">📍 Islamabad</div>
+  </div>
+  <div class="pin pin-phl">
+    <div class="pin-dot"><div class="pin-ring"></div></div>
+    <div class="pin-label">Pahalgam 📍</div>
+  </div>
+
+  <!-- Helicopter -->
+  <div class="heli-wrap" id="heli">
+    <svg class="heli-svg" viewBox="0 0 80 70" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main rotor -->
+      <g class="rotor" transform="translate(40,14)">
+        <rect x="-28" y="-2.5" width="56" height="5" rx="2.5" fill="#F6C453" opacity=".95"/>
+        <rect x="-2.5" y="-28" width="5" height="56" rx="2.5" fill="#F6C453" opacity=".7"/>
+      </g>
+      <!-- Rotor hub -->
+      <circle cx="40" cy="14" r="5" fill="#ffd980"/>
+      <!-- Body -->
+      <ellipse cx="38" cy="38" rx="22" ry="14" fill="#1a3a6e" stroke="#F6C453" stroke-width="1.2"/>
+      <!-- Cockpit window -->
+      <ellipse cx="30" cy="35" rx="9" ry="7" fill="#a8d4f5" opacity=".85" stroke="#F6C453" stroke-width=".8"/>
+      <ellipse cx="29" cy="34" rx="5" ry="4" fill="#c8e8ff" opacity=".5"/>
+      <!-- Tail boom -->
+      <rect x="56" y="36" width="16" height="5" rx="2" fill="#1a3a6e" stroke="#F6C453" stroke-width=".8"/>
+      <!-- Tail rotor -->
+      <g transform="translate(72,38)">
+        <rect x="-2" y="-10" width="4" height="20" rx="2" fill="#F6C453" opacity=".9"/>
+      </g>
+      <!-- Skids -->
+      <line x1="22" y1="51" x2="54" y2="51" stroke="#F6C453" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="26" y1="48" x2="26" y2="51" stroke="#F6C453" stroke-width="1.8"/>
+      <line x1="50" y1="48" x2="50" y2="51" stroke="#F6C453" stroke-width="1.8"/>
+      <!-- Gold accent stripe -->
+      <path d="M20,38 Q38,30 56,38" stroke="#F6C453" stroke-width="1" fill="none" opacity=".6"/>
+    </svg>
+    <div class="puff"></div>
+  </div>
+
+</div><!-- /map-card -->
+
+<!-- Popup -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <span class="popup-emoji">🥩</span>
+    <div class="popup-title">Landed in Pahalgam!</div>
+    <div class="popup-sub">5 Kg Meat For You &lt;3</div>
+    <div class="popup-close" onclick="closePopup()">Shukriya! 💛</div>
+  </div>
+</div>
+
+<div class="bottom-fade"></div>
+<a class="next-btn" id="nextBtn" href="game2.html">Continue &#10148;</a>
+
+<script>
+/* ── STARS ── */
+const sc = ['#ffffff','#fffbe0','#F6C453','#c8e0ff'];
+for(let i=0;i<90;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=1+Math.random()*2.8,c=sc[Math.floor(Math.random()*sc.length)];
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}vw;top:${Math.random()*90}vh;background:${c};border-radius:50%;box-shadow:0 0 ${sz*2}px ${c};animation:twinkle ${1.5+Math.random()*3}s ${Math.random()*5}s ease-in-out infinite;position:fixed;pointer-events:none;`;
+  document.body.appendChild(s);
+}
+
+/* ── HELICOPTER PATH ANIMATION ── */
+// Path from Islamabad (~17%,17%) to Pahalgam (~83%,80%) as percentage of card
+// We'll use a cubic bezier and animate position along it
+
+const card = document.getElementById('mapCard');
+const heli  = document.getElementById('heli');
+const trail = document.getElementById('trailPath');
+
+// Path control points (% of card dimensions)
+const pathPts = {
+  x1: 17, y1: 17,   // start: Islamabad
+  cx1:32, cy1:12,   // ctrl1
+  cx2:55, cy2:42,   // ctrl2
+  x2: 83, y2: 80    // end: Pahalgam
+};
+
+let progress = 0;
+let animating = false;
+let startTime = null;
+const DURATION = 6000; // 6 seconds flight
+
+function cubicBezier(t, p0, p1, p2, p3){
+  const mt = 1 - t;
+  return mt*mt*mt*p0 + 3*mt*mt*t*p1 + 3*mt*t*t*p2 + t*t*t*p3;
+}
+
+function animateHeli(ts){
+  if(!startTime) startTime = ts;
+  const elapsed = ts - startTime;
+  progress = Math.min(elapsed / DURATION, 1);
+
+  const cw = card.offsetWidth;
+  const ch = card.offsetHeight;
+
+  const x = cubicBezier(progress,
+    pathPts.x1/100*cw, pathPts.cx1/100*cw,
+    pathPts.cx2/100*cw, pathPts.x2/100*cw);
+  const y = cubicBezier(progress,
+    pathPts.y1/100*ch, pathPts.cy1/100*ch,
+    pathPts.cy2/100*ch, pathPts.y2/100*ch);
+
+  heli.style.left = x + 'px';
+  heli.style.top  = y + 'px';
+
+  // Animate gold trail stroke-dashoffset
+  const totalLen = 500; // approximate path length
+  trail.style.strokeDashoffset = totalLen * (1 - progress);
+
+  // Tilt heli slightly in direction of travel
+  if(progress < 0.98){
+    const dx = cubicBezier(Math.min(progress+.01,1),
+      pathPts.x1/100*cw,pathPts.cx1/100*cw,pathPts.cx2/100*cw,pathPts.x2/100*cw) - x;
+    const dy = cubicBezier(Math.min(progress+.01,1),
+      pathPts.y1/100*ch,pathPts.cy1/100*ch,pathPts.cy2/100*ch,pathPts.y2/100*ch) - y;
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI * 0.3;
+    heli.querySelector('.heli-svg').style.transform = `rotate(${angle}deg)`;
+  }
+
+  if(progress < 1){
+    requestAnimationFrame(animateHeli);
+  } else {
+    // Arrived!
+    setTimeout(showPopup, 400);
+  }
+}
+
+// Trail path length calibration
+function calibrateTrail(){
+  const pathEl = document.getElementById('trailPath');
+  try{
+    const len = pathEl.getTotalLength();
+    pathEl.style.strokeDasharray = len;
+    pathEl.style.strokeDashoffset = len;
+  }catch(e){
+    pathEl.style.strokeDasharray = 500;
+    pathEl.style.strokeDashoffset = 500;
+  }
+}
+
+function startFlight(){
+  calibrateTrail();
+  requestAnimationFrame(animateHeli);
+}
+
+// Start after small delay
+setTimeout(startFlight, 800);
+
+/* ── POPUP ── */
+function showPopup(){
+  document.getElementById('popup').classList.add('show');
+  spawnConfetti();
+}
+
+function closePopup(){
+  document.getElementById('popup').classList.remove('show');
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+/* ── CONFETTI ── */
+const confColors = ['#F6C453','#ffd980','#ff9ebc','#a8f0c6','#c8e0ff','#fff'];
+function spawnConfetti(){
+  for(let i=0;i<55;i++){
+    const c=document.createElement('div');
+    c.className='conf';
+    c.style.cssText=`
+      left:${Math.random()*100}vw;
+      top:${-10+Math.random()*30}px;
+      background:${confColors[Math.floor(Math.random()*confColors.length)]};
+      width:${5+Math.random()*8}px;
+      height:${5+Math.random()*8}px;
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-duration:${1.8+Math.random()*2.2}s;
+      animation-delay:${Math.random()*.8}s;
+    `;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 4000);
+  }
+}
+</script>
+</body>
+</html>
