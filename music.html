@@ -13,9 +13,8 @@ background:radial-gradient(circle at 50% 75%,rgba(246,196,83,.10),transparent 26
 radial-gradient(circle at center,#111936 0%,#0B1026 55%,#030712 100%);
 font-family:sans-serif;}
 
-/* TITLE — LEFT SIDE */
-h1{position:fixed;top:26px;left:36px;
-font-family:"Great Vibes",cursive;font-size:clamp(3rem,8vw,5.2rem);
+h1{position:fixed;top:clamp(16px,3vh,30px);left:clamp(16px,3vw,36px);
+font-family:"Great Vibes",cursive;font-size:clamp(2.6rem,8vw,5.2rem);
 color:var(--gold);font-weight:400;
 text-shadow:0 0 28px rgba(246,196,83,.85),0 0 60px rgba(246,196,83,.3);
 z-index:50;white-space:nowrap;animation:titleGlow 3s ease-in-out infinite alternate;}
@@ -24,21 +23,18 @@ from{text-shadow:0 0 20px rgba(246,196,83,.7),0 0 45px rgba(246,196,83,.25);}
 to{text-shadow:0 0 40px rgba(246,196,83,1),0 0 80px rgba(246,196,83,.45);}
 }
 
-/* CRESCENT MOON — moved lower, more centered away from music button */
-.moon{position:fixed;top:72px;right:130px;z-index:100;width:52px;height:52px;pointer-events:none;}
+.moon{position:fixed;top:clamp(60px,9vh,80px);right:clamp(110px,14vw,140px);z-index:100;width:52px;height:52px;pointer-events:none;}
 .moon svg{width:100%;height:100%;filter:drop-shadow(0 0 12px rgba(200,210,255,.7)) drop-shadow(0 0 28px rgba(180,200,255,.4));
 animation:moonGlow 4s ease-in-out infinite alternate;}
 @keyframes moonGlow{
 from{filter:drop-shadow(0 0 10px rgba(200,210,255,.6)) drop-shadow(0 0 22px rgba(180,200,255,.3));}
 to{filter:drop-shadow(0 0 22px rgba(220,230,255,.9)) drop-shadow(0 0 45px rgba(180,200,255,.55));}}
 
-/* CLOUDS — darker, more of them */
 .clouds{position:fixed;top:0;left:0;right:0;height:230px;z-index:8;overflow:hidden;pointer-events:none;}
 .cloud{position:absolute;}
 .cloud-body{position:relative;display:inline-block;}
 .cloud-body::before,.cloud-body::after{content:'';position:absolute;background:inherit;border-radius:50%;}
 
-/* Clouds — visible grey #747880 */
 .c1{top:20px;animation:cld1 62s linear infinite;opacity:.75;filter:blur(4px);}
 .c1 .cloud-body{width:190px;height:52px;background:radial-gradient(ellipse at 50% 65%,#8b9099,#747880);border-radius:50px;box-shadow:0 4px 20px rgba(0,0,0,.4);}
 .c1 .cloud-body::before{width:95px;height:78px;top:-36px;left:28px;background:radial-gradient(ellipse at 50% 70%,#8b9099,#6e757d);}
@@ -69,7 +65,6 @@ to{filter:drop-shadow(0 0 22px rgba(220,230,255,.9)) drop-shadow(0 0 45px rgba(1
 .c6 .cloud-body::before{width:60px;height:52px;top:-24px;left:18px;background:radial-gradient(ellipse at 50% 70%,#7a8088,#747880);}
 .c6 .cloud-body::after{width:46px;height:36px;top:-15px;left:66px;background:radial-gradient(ellipse at 50% 65%,#747880,#6a6f78);}
 
-/* Extra clouds */
 .c7{top:30px;animation:cld7 55s linear infinite;opacity:.68;filter:blur(5px);}
 .c7 .cloud-body{width:175px;height:48px;background:radial-gradient(ellipse at 50% 65%,#868b94,#747880);border-radius:46px;box-shadow:0 4px 18px rgba(0,0,0,.3);}
 .c7 .cloud-body::before{width:88px;height:72px;top:-34px;left:26px;background:radial-gradient(ellipse at 50% 70%,#868b94,#747880);}
@@ -95,8 +90,7 @@ to{filter:drop-shadow(0 0 22px rgba(220,230,255,.9)) drop-shadow(0 0 45px rgba(1
 @keyframes cld8{from{transform:translateX(calc(100vw + 160px));}to{transform:translateX(-160px);}}
 @keyframes cld9{from{transform:translateX(15vw);}to{transform:translateX(calc(100vw + 250px));}}
 
-/* MUSIC BUTTON — top right */
-.music-wrap{position:fixed;top:22px;right:22px;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:100;}
+.music-wrap{position:fixed;top:clamp(16px,3vh,26px);right:clamp(14px,3vw,22px);display:flex;flex-direction:column;align-items:center;gap:5px;z-index:100;}
 .music-btn{width:58px;height:58px;border-radius:50%;border:2px solid rgba(246,196,83,.85);
 background:rgba(6,10,28,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
 cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;
@@ -119,14 +113,12 @@ filter:drop-shadow(0 0 7px rgba(246,196,83,1));transition:transform .2s;}
 }
 .music-label{font-family:"Amiri",serif;font-size:.68rem;color:rgba(246,196,83,.8);letter-spacing:2px;text-transform:uppercase;}
 
-/* RAYS */
 .rays{position:fixed;top:0;left:50%;transform:translateX(-50%);width:700px;height:600px;
 background:conic-gradient(from 255deg at 50% 0%,transparent 0deg,rgba(246,196,83,.022) 4deg,transparent 8deg,rgba(246,196,83,.016) 16deg,transparent 22deg,rgba(255,255,255,.012) 32deg,transparent 38deg);
 animation:rayPulse 9s ease-in-out infinite;z-index:2;pointer-events:none;}
 @keyframes rayPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
 
-/* SCENE */
-.scene{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:210px;}
+.scene{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:clamp(160px,22vh,230px);}
 .scene-glow{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;
 background:radial-gradient(ellipse,rgba(246,196,83,.09) 0%,transparent 65%);
 animation:glowBreath 4.5s ease-in-out infinite;pointer-events:none;z-index:1;}
@@ -134,13 +126,12 @@ animation:glowBreath 4.5s ease-in-out infinite;pointer-events:none;z-index:1;}
 .tree-l,.tree-r{position:fixed;bottom:0;z-index:6;pointer-events:none;}
 .tree-l{left:-8px;}.tree-r{right:-8px;}
 
-/* COUPLE PHOTO */
 .char-wrap{
   position:absolute;
-  bottom:28px;
+  bottom:clamp(20px,3vh,32px);
   left:50%;
   transform:translateX(-50%);
-  width:300px;
+  width:clamp(200px,40vw,300px);
   display:flex;justify-content:center;align-items:flex-end;
   z-index:12;
   animation:charFloat2 4.5s ease-in-out infinite;
@@ -158,11 +149,9 @@ animation:glowBreath 4.5s ease-in-out infinite;pointer-events:none;z-index:1;}
 width:220px;height:65px;background:radial-gradient(ellipse at 50% 90%,rgba(246,196,83,.18) 0%,transparent 70%);
 z-index:6;pointer-events:none;}
 
-/* BOTTOM FADE */
 .bottom-fade{position:fixed;bottom:0;left:0;right:0;height:130px;
 background:linear-gradient(180deg,transparent,rgba(3,7,18,.92));z-index:5;pointer-events:none;}
 
-/* TWINKLING STARS */
 .star{position:fixed;border-radius:50%;pointer-events:none;background:#fff;}
 .star.type-gold{background:var(--gold);}
 .star.type-blue{background:#c8e0ff;}
@@ -188,26 +177,22 @@ background:linear-gradient(180deg,transparent,rgba(3,7,18,.92));z-index:5;pointe
 box-shadow:0 0 6px 2px rgba(255,255,255,.7),6px 0 12px rgba(255,255,255,.4);
 pointer-events:none;animation:shootStar linear forwards;}
 
-/* SPARKS — reduced */
 .spark{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--gold);
 box-shadow:0 0 14px var(--gold);animation:sparkle 2.6s ease-in-out infinite;pointer-events:none;}
 @keyframes sparkle{0%,100%{opacity:.2;transform:scale(1);}50%{opacity:1;transform:scale(1.9);}}
 
-/* FIREFLIES */
 .firefly{position:fixed;border-radius:50%;pointer-events:none;animation:fireflyDrift linear infinite;}
 @keyframes fireflyDrift{
 0%{opacity:0;transform:translateY(0) translateX(0);}15%{opacity:1;}
 50%{opacity:.8;transform:translateY(-50px) translateX(18px);}85%{opacity:.4;}
 100%{opacity:0;transform:translateY(-110px) translateX(-10px);}}
 
-/* FLOATERS */
 .floater{position:fixed;animation:floatUp linear infinite;opacity:0;pointer-events:none;}
 @keyframes floatUp{
 0%{opacity:0;transform:translateY(0) rotate(-15deg) scale(.5);}14%{opacity:.85;}
 82%{opacity:.25;}100%{opacity:0;transform:translateY(-190px) rotate(18deg) scale(1);}}
 
-/* NEXT BTN */
-.next-btn{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+.next-btn{position:fixed;bottom:clamp(16px,3vh,36px);left:50%;transform:translateX(-50%);
 padding:8px 22px;border:1.5px solid var(--gold);border-radius:18px;
 background:rgba(246,196,83,.12);color:var(--gold);font-family:"Amiri",serif;font-size:.95rem;
 text-decoration:none;box-shadow:0 0 13px rgba(246,196,83,.35);z-index:60;transition:all .3s;white-space:nowrap;}
@@ -215,10 +200,19 @@ text-decoration:none;box-shadow:0 0 13px rgba(246,196,83,.35);z-index:60;transit
 
 @media(max-width:480px){
 .branch{width:280px;}.ropes{width:218px;height:152px;}.seat{width:238px;}
-.char-wrap{width:240px;}.scene{padding-top:195px;}
-h1{top:20px;left:16px;font-size:clamp(2.5rem,13vw,3.6rem);}
-.music-wrap{top:18px;right:16px;}.music-btn{width:50px;height:50px;}.music-btn svg{width:22px;height:22px;}
-.moon{top:70px;right:100px;width:42px;height:42px;}
+.char-wrap{width:clamp(180px,55vw,240px);}
+.scene{padding-top:clamp(140px,20vh,190px);}
+h1{top:clamp(12px,2.5vh,20px);left:clamp(12px,3vw,18px);font-size:clamp(2.4rem,13vw,3.6rem);}
+.music-wrap{top:clamp(12px,2.5vh,20px);right:clamp(12px,3vw,18px);}
+.music-btn{width:50px;height:50px;}.music-btn svg{width:22px;height:22px;}
+.moon{top:clamp(62px,10vh,78px);right:clamp(85px,22vw,108px);width:42px;height:42px;}
+.next-btn{bottom:clamp(14px,3vh,26px);font-size:.85rem;padding:7px 17px;}
+}
+
+@media(min-width:1200px){
+.scene{padding-top:clamp(200px,20vh,240px);}
+.char-wrap{width:clamp(260px,22vw,320px);}
+.next-btn{bottom:clamp(28px,3.5vh,44px);}
 }
 </style>
 </head>
@@ -226,7 +220,6 @@ h1{top:20px;left:16px;font-size:clamp(2.5rem,13vw,3.6rem);}
 
 <h1>Together</h1>
 
-<!-- CRESCENT MOON — repositioned lower and away from music btn -->
 <div class="moon">
   <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -317,7 +310,6 @@ h1{top:20px;left:16px;font-size:clamp(2.5rem,13vw,3.6rem);}
 <audio id="bgAudio" loop><source src="song1.mpeg" type="audio/mpeg"></audio>
 
 <script>
-// Music toggle
 let playing = false;
 const audio = document.getElementById('bgAudio');
 const btn   = document.getElementById('musicBtn');
@@ -336,7 +328,6 @@ function toggleMusic(){
   playing = !playing;
 }
 
-/* ===== STARS — reduced jiggle (1 in 12 instead of 1 in 5) ===== */
 const starColors = ['#ffffff','#fffbe0','#F6C453','#c8e0ff','#ffd9b3','#e0e8ff'];
 for(let i = 0; i < 120; i++){
   const s = document.createElement('div');
@@ -345,7 +336,6 @@ for(let i = 0; i < 120; i++){
   const col = starColors[Math.floor(Math.random() * starColors.length)];
   const dur = 1.5 + Math.random() * 3.5;
   const delay = Math.random() * 5;
-  // reduced jiggle: only 1 in 12 stars jiggle instead of 1 in 5
   const anim = i % 12 === 0 ? 'jiggle' : 'twinkle';
   s.style.cssText = `
     width:${sz}px; height:${sz}px;
@@ -359,7 +349,6 @@ for(let i = 0; i < 120; i++){
   document.body.appendChild(s);
 }
 
-// Diamond / cross-shaped bright stars
 for(let i = 0; i < 18; i++){
   const s = document.createElement('div');
   s.style.cssText = `
@@ -380,7 +369,6 @@ for(let i = 0; i < 18; i++){
   document.body.appendChild(s);
 }
 
-// Shooting stars
 function spawnShoot(){
   const sh = document.createElement('div');
   sh.className = 'shoot';
@@ -395,7 +383,6 @@ function spawnShoot(){
 }
 setInterval(spawnShoot, 3500 + Math.random()*4000);
 
-// Gold sparks — reduced from 34 to 16
 for(let i = 0; i < 16; i++){
   const s = document.createElement('span');
   s.className = 'spark';
@@ -405,7 +392,6 @@ for(let i = 0; i < 16; i++){
   document.body.appendChild(s);
 }
 
-// Fireflies
 const ffC = ['#F6C453','#fff9c0','#c8ffc8','#ffffaa'];
 for(let i = 0; i < 28; i++){
   const f = document.createElement('div');
@@ -416,7 +402,6 @@ for(let i = 0; i < 28; i++){
   document.body.appendChild(f);
 }
 
-// Floating symbols
 const syms = ['&#128154;','&#10024;','&#11088;','&#127807;','&#128155;','&#10022;'];
 const fl = document.getElementById('floaters');
 function spawnFloat(){
